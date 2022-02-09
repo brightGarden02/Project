@@ -37,14 +37,14 @@ enum BATTLE
     BATTLE_NONE,
     BATTLE_ATTACK,
     BATTLE_BACK
-}
+};
 
 
 
 struct _tagInventory
 {
     int iGold;
-}
+};
 
 
 #define NAME_SIZE 32
@@ -106,7 +106,7 @@ int main() {
         cout << "1. 기사" << endl;
         cout << "2. 궁수" << endl;
         cout << "3. 마법사" << endl;
-        cout << "직업을 선택하세요 : " << endl;
+        cout << "직업을 선택하세요 : ";
         cin >> iJob;
 
         if (cin.fail()) {
@@ -124,8 +124,8 @@ int main() {
     tPlayer.iExp = 0;
     tPlayer.eJob = (JOB)iJob;
     tPlayer.tInventory.iGold = 10000;
-    
-    
+
+
     switch (tPlayer.eJob)
     {
     case JOB_KNIGHT:
@@ -216,7 +216,7 @@ int main() {
     while (true) {
         system("cls");
         cout << "************************** 로비 **************************" << endl;
-            cout << "1. 맵" << endl;
+        cout << "1. 맵" << endl;
         cout << "2. 상점" << endl;
         cout << "3. 가방" << endl;
         cout << "4. 종료" << endl;
@@ -241,7 +241,7 @@ int main() {
             while (true) {
                 system("cls");
                 cout << "************************** 맵 **************************" << endl;
-                    cout << "1. 쉬움" << endl;
+                cout << "1. 쉬움" << endl;
                 cout << "2. 보통" << endl;
                 cout << "3. 어려움 " << endl;
                 cout << "4. 뒤로가기" << endl;
@@ -266,128 +266,128 @@ int main() {
                 while (true) {
 
                     system("cls");
-                    
+
                     switch (iMenu)
                     {
                     case MT_EASY:
                         cout << "************************** 쉬움 **************************" << endl;
-                            break;
+                        break;
                     case MT_NORMAL:
                         cout << "************************** 보통 **************************" << endl;
-                            break;
+                        break;
                     case MT_HARD:
                         cout << "************************** 어려움 **************************" << endl;
-                            break;
+                        break;
                     }
 
                     // 플레이어 정보를 출력한다.
-                    cout << "************************** Player **************************" << endl; 
+                    cout << "************************** Player **************************" << endl;
                     cout << "이름 : " << tPlayer.strName << "\t직업 : " << tPlayer.strJobName << endl;
                     cout << "레벨 : " << tPlayer.iLevel << "\t경험치 : " << tPlayer.iExp << endl;
                     cout << "공격력 : " << tPlayer.iAttackMin << " - " << tPlayer.iAttackMax << "\t방어력 : " << tPlayer.iArmorMin << " - " << tPlayer.iArmorMax << endl;
                     cout << "체력 : " << tPlayer.iHP << " / " << tPlayer.iHPMax << "\t마나 : " << tPlayer.iMP << " / " << tPlayer.iMPMax << endl;
-                    cout << "보유골드 : " << tPlayer.tInventory.iGold << " Gold" < endl;
+                    cout << "보유골드 : " << tPlayer.tInventory.iGold << " Gold" << endl;
 
-                    
+
                     // 몬스터 정보 출력
-                    cout << "************************** Monster **************************" << endl; 
-                    cout << "이름 : " << tMonster.strName << "\레벨 : " << tMonster.iLevel << endl;
+                    cout << "************************** Monster **************************" << endl;
+                    cout << "이름 : " << tMonster.strName << "\t레벨 : " << tMonster.iLevel << endl;
                     cout << "공격력 : " << tMonster.iAttackMin << " - " << tMonster.iAttackMax << "\t방어력 : " << tMonster.iArmorMin << " - " << tMonster.iArmorMax << endl;
                     cout << "체력 : " << tMonster.iHP << " / " << tMonster.iHPMax << "\t마나 : " << tMonster.iMP << " / " << tMonster.iMPMax << endl;
                     cout << "획득 경험치 : " << tMonster.iExp << "\t획득골드 : " << tMonster.iGoldMin << " - " << tMonster.iGoldMax << endl;
-                    
-                    
+
+
                     cout << "1. 공격" << endl;
                     cout << "2. 도망가기" << endl;
-                    cout << "메뉴를 선택하세요 : " << endl;
+                    cout << "메뉴를 선택하세요 : ";
                     cin >> iMenu;
-                    if(cin.fail())
+                    if (cin.fail())
                     {
                         cin.clear();
                         cin.ignore(1024, '\n');
                         continue;
                     }
-                    else if(iMenu = BATTLE_BACK) 
+                    else if (iMenu == BATTLE_BACK)
                         break;
-                    
-                    switch(iMenu){
-                    
-                        case BATTLE_ATTCK:
-                            {
-                                int iAttack = rand() % (tPlayer.iAttackMax - tPlayer.iAttackMin + 1) + tlayer.iAttackMin;
-                                int iArmor = rand() % (tPlayer.iArmorMax - tPlayer.iArmorMin + 1) + tlayer.iArmorMin;
-                                
-                                int iDamge = iAttack - iArmor;
-                                
-                                iDamage = max
-                                iDamge = iDamage < 1 ? 1 : iDamage;
-                                
-                                
-                                // 몬스터 HP를 감소시킨다.
-                                iMonster.iHP -= iDamage;
-                                
-                                cout << tPlayer.strName << "가 " << tMonster.strName << "에게  " << iDamage << " 피해를 입혔습니다." << endl;
-                                
-                                // 몬스터가 죽었을 경우를 처리한다.
-                                if(tMonster.iHP <= 0){
-                                    
-                                    cout << tMonster.strName << " 몬스터가 사망하였습니다." << endl;
-                                    
-                                    tPlayer.iExp += tMonster.iExp;
-                                    int iGold = (rand() % (tMonster.iGoldMax - tMonster.iGoldMin + 1) + tMonster.iGoldMin);
-                                    tPlayer.tInventory.iGold += iGold;
-                                    
-                                    cout << tMonster.iExp << " 경험치를 획득하였습니다." << endl;
-                                    cout << iGold << " Gold를 획득하였습니다." << endl;
-                                    
-                                    tMonster.iHP = tMonster.iHPMax;
-                                    tMonster.iMP = tMonster.iMPMax;
-                                    
-                                    system("pause");
-                                    break;
-                                    
-                                }
-                                
-                                // 몬스터가 살아있다면 플레이어를 공격한다.
-                                iAttack = rand() % (tMonster.iAttackMax - tMonster.iAttackMin + 1) + tMonster.iAttackMin;
-                                iArmor = rand() % (tMonster.iArmorMax - tMonster.iArmorMin + 1) + tMonster.iArmorMin;
-                                
-                                iDamge = iAttack - iArmor;
-                                
-                                iDamage = max
-                                iDamge = iDamage < 1 ? 1 : iDamage;
-                                
-                                
-                                // 플레이어의 HP를 감소시킨다.
-                                tPlayer.iHP -= iDamage;
-                                
-                                cout << tMonster.strName << "가 " << tPlayer.strName << "에게  " << iDamage << " 피해를 입혔습니다." << endl;
-                                
-                                // 플레이어가 죽었을 경우를 처리한다.
-                                if(tPlayer.iHP <= 0){
-                                    
-                                    cout << tPlayer.strName << " 플레이어가 사망하였습니다." << endl;
-                                    
-                                    int iExp = tPlayer.iExp * 0.1f;
-                                    int iGold = tPlayer.tInventory.iGold * 0.1f;
-                                    
-                                    tPlyer.iExp -= iExp;
-                                    tPlayer.iGold -= iGold;
-                                    
-                                    cout << iExp << " 경험치를 잃었습니다." << endl;
-                                    cout << iGold << " Gold를 잃었습니다." << endl;
-                                    
-                                    
-                                    // 플레이어의 HP와 MP를 회복한다.
-                                    tPlayer.iHP = tPlayer.iHPMax;
-                                    tPlayer.iMP = tPlayer.iMPMax;
-                                    
-                                }
-                                system("pause");
-                            }
+
+                    switch (iMenu) {
+
+                    case BATTLE_ATTACK:
+                    {
+                        int iAttack = rand() % (tPlayer.iAttackMax - tPlayer.iAttackMin + 1) + tPlayer.iAttackMin;
+                        int iArmor = rand() % (tMonster.iArmorMax - tMonster.iArmorMin + 1) + tMonster.iArmorMin;
+
+                        int iDamage = iAttack - iArmor;
+
+                        
+                        iDamage = iDamage < 1 ? 1 : iDamage;
+
+
+                        // 몬스터 HP를 감소시킨다.
+                        tMonster.iHP -= iDamage;
+
+                        cout << tPlayer.strName << "가 " << tMonster.strName << "에게  " << iDamage << " 피해를 입혔습니다." << endl;
+
+                        // 몬스터가 죽었을 경우를 처리한다.
+                        if (tMonster.iHP <= 0) {
+
+                            cout << tMonster.strName << " 몬스터가 사망하였습니다." << endl;
+
+                            tPlayer.iExp += tMonster.iExp;
+                            int iGold = (rand() % (tMonster.iGoldMax - tMonster.iGoldMin + 1) + tMonster.iGoldMin);
+                            tPlayer.tInventory.iGold += iGold;
+
+                            cout << tMonster.iExp << " 경험치를 획득하였습니다." << endl;
+                            cout << iGold << " Gold를 획득하였습니다." << endl;
+
+                            tMonster.iHP = tMonster.iHPMax;
+                            tMonster.iMP = tMonster.iMPMax;
+
+                            system("pause");
                             break;
+
+                        }
+
+                        // 몬스터가 살아있다면 플레이어를 공격한다.
+                        iAttack = rand() % (tMonster.iAttackMax - tMonster.iAttackMin + 1) + tMonster.iAttackMin;
+                        iArmor = rand() % (tPlayer.iArmorMax - tPlayer.iArmorMin + 1) + tPlayer.iArmorMin;
+
+                        iDamage = iAttack - iArmor;
+
+                        iDamage = iDamage < 1 ? 1 : iDamage;
+
+
+                        // 플레이어의 HP를 감소시킨다.
+                        tPlayer.iHP -= iDamage;
+
+                        cout << tMonster.strName << "가 " << tPlayer.strName << "에게  " << iDamage << " 피해를 입혔습니다." << endl;
+
+                        // 플레이어가 죽었을 경우를 처리한다.
+                        if (tPlayer.iHP <= 0) {
+
+                            cout << tPlayer.strName << " 플레이어가 사망하였습니다." << endl;
+
+                            int iExp = tPlayer.iExp * 0.1f;
+                            int iGold = tPlayer.tInventory.iGold * 0.1f;
+
+                            tPlayer.iExp -= iExp;
+                            tPlayer.tInventory.iGold -= iGold;
+                            
+
+                            cout << iExp << " 경험치를 잃었습니다." << endl;
+                            cout << iGold << " Gold를 잃었습니다." << endl;
+
+
+                            // 플레이어의 HP와 MP를 회복한다.
+                            tPlayer.iHP = tPlayer.iHPMax;
+                            tPlayer.iMP = tPlayer.iMPMax;
+
+                        }
+                        system("pause");
                     }
-                    
+                    break;
+                    }
+
                 }
 
 
