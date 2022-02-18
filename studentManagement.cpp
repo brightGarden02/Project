@@ -36,36 +36,39 @@ int main(){
 	
 	_tagStudent tStudentArr[STUDENT_MAX] = {};
 	
-	// ¹è¿­¿¡ Ãß°¡µÈ °³¼ö¸¦ ÀúÀåÇÒ º¯¼ö¸¦ ¸¸µç´Ù.
+	// ë°°ì—´ì— ì¶”ê°€ëœ ê°œìˆ˜ë¥¼ ì €ì¥í•  ë³€ìˆ˜ë¥¼ ë§Œë“ ë‹¤.
 	int iStudentCount = 0;
 	int iStdNumber = 1;
-	 
+	
+	
+	char strName[NAME_SIZE] = {};	
+			 
 	
 	
 	while(true){
 
 		system("cls");
 		
-		// ¸Ş´º¸¦ Ãâ·ÂÇÑ´Ù.
-		cout << "1. ÇĞ»ıµî·Ï"  << endl;
-		cout << "2. ÇĞ»ı»èÁ¦"  << endl;
-		cout << "3. ÇĞ»ıÅ½»ö"  << endl;
-		cout << "4. ÇĞ»ıÃâ·Â"  << endl;
-		cout << "5. Á¾·á" << endl;
-		cout << "¸Ş´º¸¦ ¼±ÅÃÇÏ¼¼¿ä: ";
+		// ë©”ë‰´ë¥¼ ì¶œë ¥í•œë‹¤.
+		cout << "1. í•™ìƒë“±ë¡"  << endl;
+		cout << "2. í•™ìƒì‚­ì œ"  << endl;
+		cout << "3. í•™ìƒíƒìƒ‰"  << endl;
+		cout << "4. í•™ìƒì¶œë ¥"  << endl;
+		cout << "5. ì¢…ë£Œ" << endl;
+		cout << "ë©”ë‰´ë¥¼ ì„ íƒí•˜ì„¸ìš”: ";
 		
 		int iMenu;
 		cin >> iMenu;
 		
 		if(cin.fail()){
 			
-			// ¿¡·¯¹öÆÛ¸¦ ºñ¿öÁØ´Ù.
+			// ì—ëŸ¬ë²„í¼ë¥¼ ë¹„ì›Œì¤€ë‹¤.
 			cin.clear();
 			
-			// ÀÔ·Â¹öÆÛ¿¡ \nÀÌ ³²¾ÆÀÖÀ¸¹Ç·Î ÀÔ·Â¹öÆÛ¸¦ °Ë»öÇÏ¿© \nÀ» Áö¿öÁØ´Ù.
-			// Ã¹¹øÂ°¿¡´Â °Ë»öÇÏ°íÀÚ ÇÏ´Â ¹öÆÛ Å©±â¸¦ ÁöÁ¤ÇÑ´Ù.
-			// ³Ë³ËÇÏ°Ô 1024 ¹ÙÀÌÆ® Á¤µµ ÁöÁ¤ÇÑ´Ù.
-			// µÎ¹øÂ°´Â Ã£°íÀÚ ÇÏ´Â ¹®ÀÚ¸¦ ³Ö¾îÁØ´Ù.
+			// ì…ë ¥ë²„í¼ì— \nì´ ë‚¨ì•„ìˆìœ¼ë¯€ë¡œ ì…ë ¥ë²„í¼ë¥¼ ê²€ìƒ‰í•˜ì—¬ \nì„ ì§€ì›Œì¤€ë‹¤.
+			// ì²«ë²ˆì§¸ì—ëŠ” ê²€ìƒ‰í•˜ê³ ì í•˜ëŠ” ë²„í¼ í¬ê¸°ë¥¼ ì§€ì •í•œë‹¤.
+			// ë„‰ë„‰í•˜ê²Œ 1024 ë°”ì´íŠ¸ ì •ë„ ì§€ì •í•œë‹¤.
+			// ë‘ë²ˆì§¸ëŠ” ì°¾ê³ ì í•˜ëŠ” ë¬¸ìë¥¼ ë„£ì–´ì¤€ë‹¤.
 			 
 			cin.ignore(1024, '\n');
 			continue;
@@ -81,38 +84,38 @@ int main(){
 			
 			case MENU_INSERT:
 				system("cls");
-				cout << "========== ÇĞ»ıÃß°¡ ==========" << endl; 
+				cout << "========== í•™ìƒì¶”ê°€ ==========" << endl; 
 				
-				// µî·ÏµÈ ÇĞ»ıÀÌ µî·ÏÇÒ ¼ö ÀÖ´Â ÃÖ´ëÄ¡ÀÏ °æ¿ì 
-				// ´õÀÌ»ó µî·ÏÀÌ ¾ÈµÇ°Ô ¸·´Â´Ù. 
+				// ë“±ë¡ëœ í•™ìƒì´ ë“±ë¡í•  ìˆ˜ ìˆëŠ” ìµœëŒ€ì¹˜ì¼ ê²½ìš° 
+				// ë”ì´ìƒ ë“±ë¡ì´ ì•ˆë˜ê²Œ ë§‰ëŠ”ë‹¤. 
 				if(iStudentCount == STUDENT_MAX)
 					break;
 				
 				
-				// ÇĞ»ı Á¤º¸¸¦ Ãß°¡ÇÑ´Ù. ÇĞ¹ø, ÀÌ¸§, ÁÖ¼Ò, ÀüÈ­¹øÈ£
-				// ±¹¾î, ¿µ¾î, ¼öÇĞ Á¡¼ö´Â ÀÔ·Â¹Ş°í ÇĞ¹ø, ÃÑÁ¡, Æò±ÕÀº
-				// ¿¬»êÀ» ÅëÇØ °è»êÇÑ´Ù.
-				// ÀÌ¸§À» ÀÔ·Â¹Ş´Â´Ù.
+				// í•™ìƒ ì •ë³´ë¥¼ ì¶”ê°€í•œë‹¤. í•™ë²ˆ, ì´ë¦„, ì£¼ì†Œ, ì „í™”ë²ˆí˜¸
+				// êµ­ì–´, ì˜ì–´, ìˆ˜í•™ ì ìˆ˜ëŠ” ì…ë ¥ë°›ê³  í•™ë²ˆ, ì´ì , í‰ê· ì€
+				// ì—°ì‚°ì„ í†µí•´ ê³„ì‚°í•œë‹¤.
+				// ì´ë¦„ì„ ì…ë ¥ë°›ëŠ”ë‹¤.
 				
 				
-				cout << "ÀÌ¸§: ";
+				cout << "ì´ë¦„: ";
 				cin >> tStudentArr[iStudentCount].strName;
 				
 				cin.ignore(1024, '\n');
 				
-				cout << "ÁÖ¼Ò: ";
+				cout << "ì£¼ì†Œ: ";
 				cin.getline(tStudentArr[iStudentCount].strAddress, ADDRESS_SIZE); 
 				
-				cout << "ÀüÈ­¹øÈ£: ";
+				cout << "ì „í™”ë²ˆí˜¸: ";
 				cin.getline(tStudentArr[iStudentCount].strPhoneNumber, PHONE_SIZE); 
 				
-				cout << "±¹¾î: ";
+				cout << "êµ­ì–´: ";
 				cin >> tStudentArr[iStudentCount].iKor;
 				
-				cout << "¿µ¾î: ";
+				cout << "ì˜ì–´: ";
 				cin >> tStudentArr[iStudentCount].iEng;
 				
-				cout << "¼öÇĞ: ";
+				cout << "ìˆ˜í•™: ";
 				cin >> tStudentArr[iStudentCount].iMath;
 				
 				tStudentArr[iStudentCount].iTotal =
@@ -128,63 +131,90 @@ int main(){
 				++iStdNumber;
 				++iStudentCount;
 				
-				cout << "ÇĞ»ı Ãß°¡ ¿Ï·á" << endl;
+				cout << "í•™ìƒ ì¶”ê°€ ì™„ë£Œ" << endl;
 				
 				break;
 			case MENU_DELETE:
 				system("cls");
-				cout << "========== ÇĞ»ı»èÁ¦  ==========" << endl; 
+				cout << "========== í•™ìƒì‚­ì œ ==========" << endl; 
 				
-				cout << "ÀÌ¸§: ";
-//				cin >> tStudentArr[iStudentCount].strName;
+				cin.ignore(1024, '\n');
+				cout << "ì‚­ì œí•  ì´ë¦„ì„ ì…ë ¥í•˜ì„¸ìš”: ";
+				cin.getline(strName, NAME_SIZE);
 				
-				char strName[NAME_SIZE] = {};
-				cin >> strName;
-				
-				if(strcmp(tStudent.strName, strName) == 0){
+				// ë“±ë¡ë˜ì–´ ìˆëŠ” í•™ìƒ ìˆ˜ë§Œí¼ ë°˜ë³µí•˜ë©° í•™ìƒì„ ì°¾ëŠ”ë‹¤.
+				for(int i = 0; i < iStudentCount; ++i){
 					
-					cout << "ÇĞ»ıÀ» Ã£¾Ò½À´Ï´Ù." << endl;
-				}
-				else{
+					// í•™ìƒì„ ì°¾ì•˜ì„ ê²½ìš°
+					if(strcmp(tStudentArr[i].strName, strName) == 0){
+						
+						for(int j = i; j < iStudentCount - 1; ++j){
+							
+							tStudentArr[i] = tStudentArr[i+1];
+						}
+						--iStudentCount;
+						
+						cout << "í•™ìƒì„ ì‚­ì œí•˜ì˜€ìŠµë‹ˆë‹¤." << endl;
+						
+					} 
 					
-					cout << "Ã£´Â ÇĞ»ıÀÌ ¾ø½À´Ï´Ù." << endl;
-				}
-				
-				
-				
+				} 
 				break;
 			case MENU_SEARCH:
 				system("cls");
-				cout << "========== ÇĞ»ıÅ½»ö ==========" << endl; 
+				cout << "========== í•™ìƒíƒìƒ‰ ==========" << endl; 
 				
-				char strSearchName[NAME_SIZE] = {};	
-			
-				cout << "Å½»öÇÒ ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä: ";
+				
+				cin.ignore(1024, '\n');
+				cout << "íƒìƒ‰í•  ì´ë¦„ì„ ì…ë ¥í•˜ì„¸ìš”: ";
+				cin.getline(strName, NAME_SIZE);
+				
+				// ë“±ë¡ë˜ì–´ ìˆëŠ” í•™ìƒ ìˆ˜ë§Œí¼ ë°˜ë³µí•˜ë©° í•™ìƒì„ ì°¾ëŠ”ë‹¤.
+				for(int i = 0; i < iStudentCount; ++i){
+					
+					// í•™ìƒì„ ì°¾ì•˜ì„ ê²½ìš°
+					if(strcmp(tStudentArr[i].strName, strName) == 0){
+						
+						cout << "ì´ë¦„: " << tStudentArr[i].strName << endl;
+						cout << "ì „í™”ë²ˆí˜¸: " << tStudentArr[i].strPhoneNumber << endl;
+						cout << "ì£¼ì†Œ: " << tStudentArr[i].strAddress << endl;
+						
+						cout << "í•™ë²ˆ: " << tStudentArr[i].iNumber << endl;
+						cout << "êµ­ì–´: " << tStudentArr[i].iKor << endl;
+						cout << "ì˜ì–´: " << tStudentArr[i].iEng << endl;
+						cout << "ìˆ˜í•™: " << tStudentArr[i].iMath << endl;
+						cout << "ì´ì : " << tStudentArr[i].iTotal << endl;
+						cout << "í‰ê· : " << tStudentArr[i].fAvg << endl << endl;
+						break;
+					} 
+					
+				} 
+				
 				
 				break;
 			case MENU_OUTPUT:
 				system("cls");
-				cout << "========== ÇĞ»ıÃâ·Â ==========" << endl; 
+				cout << "========== í•™ìƒì¶œë ¥ ==========" << endl; 
 				
-				// µî·ÏµÈ ÇĞ»ı ¼ö ¸¸Å­ ¹İº¹ÇÏ¸ç ÇĞ»ıÁ¤º¸¸¦ Ãâ·ÂÇÑ´Ù.
+				// ë“±ë¡ëœ í•™ìƒ ìˆ˜ ë§Œí¼ ë°˜ë³µí•˜ë©° í•™ìƒì •ë³´ë¥¼ ì¶œë ¥í•œë‹¤.
 				for(int i = 0; i < iStudentCount; ++i)
 				{
-					cout << "ÀÌ¸§: " << tStudentArr[i].strName << endl;
-					cout << "ÀüÈ­¹øÈ£: " << tStudentArr[i].strPhoneNumber << endl;
-					cout << "ÁÖ¼Ò: " << tStudentArr[i].strAddress << endl;
+					cout << "ì´ë¦„: " << tStudentArr[i].strName << endl;
+					cout << "ì „í™”ë²ˆí˜¸: " << tStudentArr[i].strPhoneNumber << endl;
+					cout << "ì£¼ì†Œ: " << tStudentArr[i].strAddress << endl;
 					
-					cout << "ÇĞ¹ø: " << tStudentArr[i].iNumber << endl;
-					cout << "±¹¾î: " << tStudentArr[i].iKor << endl;
-					cout << "¿µ¾î: " << tStudentArr[i].iEng << endl;
-					cout << "¼öÇĞ: " << tStudentArr[i].iMath << endl;
-					cout << "ÃÑÁ¡: " << tStudentArr[i].iTotal << endl;
-					cout << "Æò±Õ: " << tStudentArr[i].fAvg << endl << endl;
+					cout << "í•™ë²ˆ: " << tStudentArr[i].iNumber << endl;
+					cout << "êµ­ì–´: " << tStudentArr[i].iKor << endl;
+					cout << "ì˜ì–´: " << tStudentArr[i].iEng << endl;
+					cout << "ìˆ˜í•™: " << tStudentArr[i].iMath << endl;
+					cout << "ì´ì : " << tStudentArr[i].iTotal << endl;
+					cout << "í‰ê· : " << tStudentArr[i].fAvg << endl << endl;
 					
 				
 				} 
 				break;
 			default:
-				cout << "¸Ş´º¸¦ Àß¸ø ¼±ÅÃÇß½À´Ï´Ù." << endl;
+				cout << "ë©”ë‰´ë¥¼ ì˜ëª» ì„ íƒí–ˆìŠµë‹ˆë‹¤." << endl;
 				break;
 			
 		}
