@@ -3,14 +3,14 @@
 
 using namespace std;
 /*
-±¸Á¶Ã¼: °ü·ÃÀÖ´Â º¯¼öµéÀ» ¸ð¾Æ¼­ ÇÏ³ªÀÇ »õ·Î¿î Å¸ÀÔÀ» ¸¸µé¾îÁÖ´Â ±â´ÉÀÌ´Ù.
-»ç¿ëÀÚ Á¤ÀÇ º¯¼ö Å¸ÀÔÀÌ´Ù.
-ÇüÅÂ: struct ±¸Á¶Ã¼¸í {}; ÇüÅÂ·Î ±¸¼ºµÈ´Ù. 
+êµ¬ì¡°ì²´: ê´€ë ¨ìžˆëŠ” ë³€ìˆ˜ë“¤ì„ ëª¨ì•„ì„œ í•˜ë‚˜ì˜ ìƒˆë¡œìš´ íƒ€ìž…ì„ ë§Œë“¤ì–´ì£¼ëŠ” ê¸°ëŠ¥ì´ë‹¤.
+ì‚¬ìš©ìž ì •ì˜ ë³€ìˆ˜ íƒ€ìž…ì´ë‹¤.
+í˜•íƒœ: struct êµ¬ì¡°ì²´ëª… {}; í˜•íƒœë¡œ êµ¬ì„±ëœë‹¤. 
 
-¹è¿­°ú ±¸Á¶Ã¼ÀÇ °øÅëÀá
-1. µ¥ÀÌÅÍ ÁýÇÕÀÌ´Ù.
-2. ¿¬¼ÓµÈ ¸Þ¸ð¸® ºí·°¿¡ ÇÒ´çµÈ´Ù.
-±¸Á¶Ã¼ ¸â¹öµéÀº ¿¬¼ÓµÈ ¸Þ¸ð¸® ºí·°À¸·Î ÀâÈ÷°Ô µÈ´Ù. 
+ë°°ì—´ê³¼ êµ¬ì¡°ì²´ì˜ ê³µí†µìž 
+1. ë°ì´í„° ì§‘í•©ì´ë‹¤.
+2. ì—°ì†ëœ ë©”ëª¨ë¦¬ ë¸”ëŸ­ì— í• ë‹¹ëœë‹¤.
+êµ¬ì¡°ì²´ ë©¤ë²„ë“¤ì€ ì—°ì†ëœ ë©”ëª¨ë¦¬ ë¸”ëŸ­ìœ¼ë¡œ ìž¡ížˆê²Œ ëœë‹¤. 
  
 */
 
@@ -36,44 +36,44 @@ int main()
 	_tagStudent tStudentArr[100] = {};
 	
 	
-	// ±¸Á¶Ã¼ ¸â¹ö¿¡ Á¢±ÙÇÒ ¶§´Â .À» ÀÌ¿ëÇØ¼­ Á¢±ÙÇÏ°Ô µÈ´Ù.
+	// êµ¬ì¡°ì²´ ë©¤ë²„ì— ì ‘ê·¼í•  ë•ŒëŠ” .ì„ ì´ìš©í•´ì„œ ì ‘ê·¼í•˜ê²Œ ëœë‹¤.
 	tStudent.iKor = 100;
 	
-	// ¹®ÀÚ¿­À» ¹è¿­¿¡ ³ÖÀ»¶§´Â ´Ü¼ø ´ëÀÔÀ¸·Î´Â ºÒ°¡´É
-	// strcpy_s¶ó´Â ÇÔ¼ö¸¦ ÀÌ¿ëÇØ¼­ ¹®ÀÚ¿­À» º¹»çÇØ¾ßÇÑ´Ù.
+	// ë¬¸ìžì—´ì„ ë°°ì—´ì— ë„£ì„ë•ŒëŠ” ë‹¨ìˆœ ëŒ€ìž…ìœ¼ë¡œëŠ” ë¶ˆê°€ëŠ¥
+	// strcpy_së¼ëŠ” í•¨ìˆ˜ë¥¼ ì´ìš©í•´ì„œ ë¬¸ìžì—´ì„ ë³µì‚¬í•´ì•¼í•œë‹¤.
 	 
-	// ÀÌ ÇÔ¼ö´Â ¿À¸¥ÂÊ¿¡ ¹®ÀÚ¿­À» ¿ÞÂÊÀ¸·Î º¹»çÇØÁØ´Ù. 
-	strcpy(tStudent.strName, "±è³ªÁ¤");	
+	// ì´ í•¨ìˆ˜ëŠ” ì˜¤ë¥¸ìª½ì— ë¬¸ìžì—´ì„ ì™¼ìª½ìœ¼ë¡œ ë³µì‚¬í•´ì¤€ë‹¤. 
+	strcpy(tStudent.strName, "í™ê¸¸ë™");	
 //	tStudent.strName[0] = 'a';
 //	tStudent.strName[1] = 'b';
 //	tStudent.strName[2] = 0;
 
-	cout << "ºñ±³ÇÒ ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä : ";
+	cout << "ë¹„êµí•  ì´ë¦„ì„ ìž…ë ¥í•˜ì„¸ìš” : ";
 	char strName[NAME_SIZE] = {};
 	cin >> strName;
 	
 	if(strcmp(tStudent.strName, strName) == 0)
 	{
-		cout << "ÇÐ»ýÀ» Ã£¾Ò½À´Ï´Ù." << endl;
+		cout << "í•™ìƒì„ ì°¾ì•˜ìŠµë‹ˆë‹¤." << endl;
 	}
 	else
 	{
-		cout << "Ã£´Â ÇÐ»ýÀÌ ¾ø½À´Ï´Ù." << endl;
+		cout << "ì°¾ëŠ” í•™ìƒì´ ì—†ìŠµë‹ˆë‹¤." << endl;
 	}
 
 	 
 
-	// strcat_s ÇÔ¼ö´Â ¹®ÀÚ¿­À» ºÙ¿©ÁÖ´Â ±â´ÉÀÌ´Ù.
-	strcat(tStudent.strName, " ¹®ÀÚ¿­ ºÙÀÌ±â"); 
+	// strcat_s í•¨ìˆ˜ëŠ” ë¬¸ìžì—´ì„ ë¶™ì—¬ì£¼ëŠ” ê¸°ëŠ¥ì´ë‹¤.
+	strcat(tStudent.strName, " ë¬¸ìžì—´ ë¶™ì´ê¸°"); 
 
 
-	cout << "ÀÌ¸§: " << tStudent.strName << endl;
-	cout << "ÇÐ¹ø: " << tStudent.iNumber << endl;
-	cout << "±¹¾î: " << tStudent.iKor << endl;
-	cout << "¿µ¾î: " << tStudent.iEng << endl;
-	cout << "¼öÇÐ: " << tStudent.iMath << endl;
-	cout << "ÃÑÁ¡: " << tStudent.iTotal << endl;
-	cout << "Æò±Õ: " << tStudent.fAvg << endl;
+	cout << "ì´ë¦„: " << tStudent.strName << endl;
+	cout << "í•™ë²ˆ: " << tStudent.iNumber << endl;
+	cout << "êµ­ì–´: " << tStudent.iKor << endl;
+	cout << "ì˜ì–´: " << tStudent.iEng << endl;
+	cout << "ìˆ˜í•™: " << tStudent.iMath << endl;
+	cout << "ì´ì : " << tStudent.iTotal << endl;
+	cout << "í‰ê· : " << tStudent.fAvg << endl;
 	
 	
 	return 0;
