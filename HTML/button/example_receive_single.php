@@ -1,5 +1,10 @@
 <html>
     <body>
-        당신의 관심사는? <?=$_POST['interest']?>
+        당신의 관심사는? <br />
+        <ul>
+        <?php
+        foreach($_POST['interest'] as $entry){
+               echo "<li>$entry </li>";
+        }?>
     </body>
 </html>
