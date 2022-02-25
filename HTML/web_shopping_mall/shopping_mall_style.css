@@ -1,5 +1,6 @@
 body{
-    margin:0;
+    width: 45%;
+    border: 1px solid black;
 }
 a {
     color:black;
@@ -48,4 +49,101 @@ ul {
 }
 #grid ol{
     padding-left:33px;
+}
+
+* {
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.wrapper {
+    padding: 10px;
+}
+
+
+.email input {
+    width: 100%;
+    text-align: center;
+}
+
+.name input {
+    width: 100%;
+    text-align: center;
+}
+
+.password input {
+    width: 100%;
+    text-align: center;
+}
+
+.passwordCheck input {
+    width: 100%;
+    text-align: center;
+}
+
+.phone {
+    display: flex;
+    justify-content: space-between;
+    line-height: 35px;
+}
+
+#phone1 {
+    width: 18%;
+    text-align: center;
+}
+
+#phone2 {
+    width: 30%;
+    text-align: center;
+}
+
+#phone3 {
+    width: 30%;
+    text-align: center;
+}
+
+.auth {
+    display: flex;
+    justify-content: space-between;
+}
+
+.timer {
+    display: flex;
+    justify-content: space-between;
+}
+.auth div {
+    width: 30%;
+    text-align: center;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.auth button {
+    width: 70%;
+}
+.area select {
+    width: 100%;
+    height: 40px;
+}
+
+.gender {
+    text-align: center;
+}
+
+.signUp button {
+    width: 100%;
+    cursor:pointer;
+}
+
+button{
+    cursor: pointer;
+    height: 30px;
 }
