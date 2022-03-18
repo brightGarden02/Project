@@ -103,10 +103,108 @@ enum MAP_TYPE
     MT_BACK
 };
 
+void OutputBattleTag(int iMenu)
+{
+	switch (iMenu)
+    {
+        case MT_EASY:
+        	cout << "************************** 쉬움 **************************" << endl;
+        	break;
+        case MT_NORMAL:
+        	cout << "************************** 보통 **************************" << endl;
+            break;
+        case MT_HARD:
+            cout << "************************** 어려움 **************************" << endl;
+            break;
+    }
+	
+}
+
+void OutputPlayer(_tagPlater* pPlayer)
+{
+	cout << "************************** Player **************************" << endl;
+    cout << "이름 : " << pPlayer->strName << "\t직업 : " << pPlayer->strJobName << endl;
+    cout << "레벨 : " << pPlayer->iLevel << "\t경험치 : " << pPlayer->iExp << " / " << g_iLevelUpExp[pPlayer->iLevel - 1] << endl;
+    cout << "공격력 : " << iAttackMin << " - " << iAttackMax << "\t방어력 : " << iArmorMin << " - " << iArmorMax << endl;
+    cout << "체력 : " << pPlayer->iHP << " / " << pPlayer->iHPMax << "\t마나 : " << pPlayer->iMP << " / " << pPlayer->iMPMax << endl;
+    cout << "보유골드 : " << pPlayer->tInventory->iGold << " Gold" << endl;
+
+
+	// 무기를 장착하고 있을 경우 무기의 Min, Max를 더해준다.
+    if (pPlayer->bEquip[EQ_WEAPON])
+    {
+        iAttackMin += pPlayer->tEquip[EQ_WEAPON].iMin;
+        iAttackMax += pPlayer->tEquip[EQ_WEAPON].iMax;
+    }
+
+    int iArmorMin = pPlayer->iArmorMin;
+    int iArmorMax = pPlayer->iArmorMax;
+
+    // 방어구를 장착하고 있을 경우 방어의 Min, Max를 더해준다.
+    if (pPlayer->bEquip[EQ_ARMOR])
+    {
+        iArmorMin += pPlayer->tEquip[EQ_ARMOR].iMin;
+    	iArmorMax += pPlayer->tEquip[EQ_ARMOR].iMax;
+    }
+    
+
+}
+
+void OutputMonster(_tagMonster* pMonster)
+{
+	 // 몬스터 정보 출력
+    cout << "************************** Monster **************************" << endl;
+    cout << "이름 : " << pMonster->strName << "\t레벨 : " << pMonster->iLevel << endl;
+    cout << "공격력 : " << pMonster->iAttackMin << " - " << pMonster->iAttackMax << "\t방어력 : " << pMonster->iArmorMin << " - " << pMonster->iArmorMax << endl;
+    cout << "체력 : " << pMonster->iHP << " / " << pMonster->iHPMax << "\t마나 : " << pMonster->iMP << " / " << pMonster->iMPMax << endl;
+    cout << "획득 경험치 : " << pMonster->iExp << "\t획득골드 : " << pMonster->iGoldMin << " - " << pMonster->iGoldMax << endl;
+
+
+	
+	
+}
+
+int OutputBattleMenu()
+{
+	cout << "1. 공격" << endl;
+    cout << "2. 도망가기" << endl;
+    cout << "메뉴를 선택하세요 : ";
+	int iMenu = InputInt();
+                    
+	if (iMenu == INT_MAX || iMenu <= BATTLE_NONE || iMenu > BATTLE_BACK)
+    	return BATTLE_NONE;
+    	
+    return iMenu;
+}
+
+
 void RunBattle(_tagPlayer* pPlayer, _tagMonster* pMonsterArr, int iMenu)
 {
 	
+	_tagMonster tMonster = pMonsterArr[iMenu - 1];
 	
+	while(true)
+	{
+		system("cls");
+		OutputBattleTag(iMenu);
+		
+		// 플레이어 출력
+		OutputPlayer(pPlayer);
+		
+		// 몬스터 출력
+		OutputMonster(&tMonster);
+		 
+		switch(OutputBattleMenu())
+		{
+			case BATTLE_ATTACK;
+				break;
+			case BATTLE_BACK;
+				return;
+			
+			
+		}
+		
+	}
 	
 }
 
@@ -163,7 +261,7 @@ void RunMap(_tagPlayer* pPlayer, _tagMonster* pMonsterArr)
 		if(iMenu == MT_BACK) return;
 		
 		// 전투를 시작한다.
-		 
+		RunBattle(pPlayer, pMonsterArr, iMenu); 
 		
 	}
 	
@@ -192,6 +290,10 @@ enum ITEM_TYPE
 #define STORE_WEAPON_MAX 3
 #define STORE_ARMOR_MAX 3
 #define LEVEL_MAX 10
+
+// 레벨업에 필요한 경험치 목록을 만든다.
+const int g_iLevelUpExp[LEVEL_MAX] = { 4000, 10000, 20000, 35000, 50000, 70000, 100000, 150000, 200000, 400000 };
+
 
 struct _tagItem
 {
@@ -250,62 +352,6 @@ struct _tagMonster
     int iGoldMax;
 
 };
-
-
-
-void RunMapEasy()
-{
-	cout << "************************** 쉬움 **************************" << endl;
-    InfoAttackAndArmor();
-	InfoPlayerAndMonster();            
-	
-	
-}
-
-
-void InfoAttackAndArmor()
-{
-	int iAttackMin = tPlayer.iAttackMin;
-    int iAttackMax = tPlayer.iAttackMax;
-
-    // 무기를 장착하고 있을 경우 무기의 Min, Max를 더해준다.
-    if (tPlayer.bEquip[EQ_WEAPON])
-    {
-        iAttackMin += tPlayer.tEquip[EQ_WEAPON].iMin;
-        iAttackMax += tPlayer.tEquip[EQ_WEAPON].iMax;
-    }
-
-    int iArmorMin = tPlayer.iArmorMin;
-    int iArmorMax = tPlayer.iArmorMax;
-
-    // 방어구를 장착하고 있을 경우 방어의 Min, Max를 더해준다.
-    if (tPlayer.bEquip[EQ_ARMOR])
-    {
-    	iArmorMin += tPlayer.tEquip[EQ_ARMOR].iMin;
-        iArmorMax += tPlayer.tEquip[EQ_ARMOR].iMax;
-    }
-	
-	
-}
-
-void InfoPlayerAndMonster()
-{
-	cout << "************************** Player **************************" << endl;
-    cout << "이름 : " << tPlayer.strName << "\t직업 : " << tPlayer.strJobName << endl;
-    cout << "레벨 : " << tPlayer.iLevel << "\t경험치 : " << tPlayer.iExp << " / " << iLevelUpExp[tPlayer.iLevel - 1] << endl;
-    cout << "공격력 : " << iAttackMin << " - " << iAttackMax << "\t방어력 : " << iArmorMin << " - " << iArmorMax << endl;
-    cout << "체력 : " << tPlayer.iHP << " / " << tPlayer.iHPMax << "\t마나 : " << tPlayer.iMP << " / " << tPlayer.iMPMax << endl;
-    cout << "보유골드 : " << tPlayer.tInventory.iGold << " Gold" << endl;
-
-
-    // 몬스터 정보 출력
-    cout << "************************** Monster **************************" << endl;
-    cout << "이름 : " << tMonster.strName << "\t레벨 : " << tMonster.iLevel << endl;
-    cout << "공격력 : " << tMonster.iAttackMin << " - " << tMonster.iAttackMax << "\t방어력 : " << tMonster.iArmorMin << " - " << tMonster.iArmorMax << endl;
-    cout << "체력 : " << tMonster.iHP << " / " << tMonster.iHPMax << "\t마나 : " << tMonster.iMP << " / " << tMonster.iMPMax << endl;
-    cout << "획득 경험치 : " << tMonster.iExp << "\t획득골드 : " << tMonster.iGoldMin << " - " << tMonster.iGoldMax << endl;
-
-}
 
 
 int SelectJob()
@@ -383,8 +429,7 @@ void SetPlayer(_tagPlayer* pPlayer)
 	
 }
 
-_tagMonster CreateMonster(char* pName, int iAttackMin, int iAttackMax,
-int iArmorMin, int iArmorMax, int iHP, int iHPMax, int iMP, int iMPMax,
+_tagMonster CreateMonster(char* pName, int iAttackMin, int iAttackMax, int iArmorMin, int iArmorMax, int iHP, int iHPMax, int iMP, int iMPMax,
 int iLevel, int iExp, int iGoldMin, int iGoldMax)
 {
 	
@@ -433,9 +478,9 @@ int main()
     // 배열명은 포인터주소이다. 
 	SetMonster(tMonsterArr);
 	
-
-    // 레벨업에 필요한 경험치 목록을 만든다.
-    const int iLevelUpExp[LEVEL_MAX] = { 4000, 10000, 20000, 35000, 50000, 70000, 100000, 150000, 200000, 400000 };
+// 전역변수로 
+//    // 레벨업에 필요한 경험치 목록을 만든다.
+//    const int iLevelUpExp[LEVEL_MAX] = { 4000, 10000, 20000, 35000, 50000, 70000, 100000, 150000, 200000, 400000 };
 
     // JOB_END는 4이다. 그런데 직업은 3개이므로 -1을 해주어서 배열을 각 직업별로
     // 생성하도록 한다.
@@ -530,7 +575,6 @@ int main()
         	
             while (true) {
                 
-                //  9분 
 
                 // 선택한 메뉴에서 1을 빼주면 몬스터 배열의 인덱스가 된다.
                 // 그렇게 해서 해당 맵의 몬스터를 생성해준다.
@@ -538,72 +582,12 @@ int main()
 
                 while (true) {
 
-                    system("cls");
-
-                    switch (iMenu)
-                    {
-                    case MT_EASY:
-                        cout << "************************** 쉬움 **************************" << endl;
-                        break;
-                    case MT_NORMAL:
-                        cout << "************************** 보통 **************************" << endl;
-                        break;
-                    case MT_HARD:
-                        cout << "************************** 어려움 **************************" << endl;
-                        break;
-                    }
-
-
+                    
                     int iAttackMin = tPlayer.iAttackMin;
                     int iAttackMax = tPlayer.iAttackMax;
 
-                    // 무기를 장착하고 있을 경우 무기의 Min, Max를 더해준다.
-                    if (tPlayer.bEquip[EQ_WEAPON])
-                    {
-                        iAttackMin += tPlayer.tEquip[EQ_WEAPON].iMin;
-                        iAttackMax += tPlayer.tEquip[EQ_WEAPON].iMax;
-                    }
 
-                    int iArmorMin = tPlayer.iArmorMin;
-                    int iArmorMax = tPlayer.iArmorMax;
-
-                    // 방어구를 장착하고 있을 경우 방어의 Min, Max를 더해준다.
-                    if (tPlayer.bEquip[EQ_ARMOR])
-                    {
-                        iArmorMin += tPlayer.tEquip[EQ_ARMOR].iMin;
-                        iArmorMax += tPlayer.tEquip[EQ_ARMOR].iMax;
-                    }
-
-
-                    // 플레이어 정보를 출력한다.
-                    cout << "************************** Player **************************" << endl;
-                    cout << "이름 : " << tPlayer.strName << "\t직업 : " << tPlayer.strJobName << endl;
-                    cout << "레벨 : " << tPlayer.iLevel << "\t경험치 : " << tPlayer.iExp << " / " << iLevelUpExp[tPlayer.iLevel - 1] << endl;
-                    cout << "공격력 : " << iAttackMin << " - " << iAttackMax << "\t방어력 : " << iArmorMin << " - " << iArmorMax << endl;
-                    cout << "체력 : " << tPlayer.iHP << " / " << tPlayer.iHPMax << "\t마나 : " << tPlayer.iMP << " / " << tPlayer.iMPMax << endl;
-                    cout << "보유골드 : " << tPlayer.tInventory.iGold << " Gold" << endl;
-
-
-                    // 몬스터 정보 출력
-                    cout << "************************** Monster **************************" << endl;
-                    cout << "이름 : " << tMonster.strName << "\t레벨 : " << tMonster.iLevel << endl;
-                    cout << "공격력 : " << tMonster.iAttackMin << " - " << tMonster.iAttackMax << "\t방어력 : " << tMonster.iArmorMin << " - " << tMonster.iArmorMax << endl;
-                    cout << "체력 : " << tMonster.iHP << " / " << tMonster.iHPMax << "\t마나 : " << tMonster.iMP << " / " << tMonster.iMPMax << endl;
-                    cout << "획득 경험치 : " << tMonster.iExp << "\t획득골드 : " << tMonster.iGoldMin << " - " << tMonster.iGoldMax << endl;
-
-
-                    cout << "1. 공격" << endl;
-                    cout << "2. 도망가기" << endl;
-                    cout << "메뉴를 선택하세요 : ";
-                    cin >> iMenu;
-                    if (cin.fail())
-                    {
-                        cin.clear();
-                        cin.ignore(1024, '\n');
-                        continue;
-                    }
-                    else if (iMenu == BATTLE_BACK)
-                        break;
+                    
 
                     switch (iMenu) {
 
