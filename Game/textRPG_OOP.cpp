@@ -4,17 +4,6 @@
 using namespace std;
 
 
-
-
-enum JOB
-{
-    JOB_NONE,
-    JOB_KNIGHT,
-    JOB_ARCHER,
-    JOB_WIZARD,
-    JOB_END
-};
-
 enum BATTLE
 {
     BATTLE_NONE,
@@ -22,13 +11,7 @@ enum BATTLE
     BATTLE_BACK
 };
 
-enum ITEM_TYPE
-{
-    IT_NONE,
-    IT_WEAPON,
-    IT_ARMOR,
-    IT_BACK
-};
+
 
 enum STORE_MENU
 {
@@ -47,70 +30,6 @@ enum EQUI
 
 
 
-#define NAME_SIZE 32
-#define ITEM_DESC_LENGTH 512
-#define INVENTORY_MAX 20
-#define STORE_WEAPON_MAX 3
-#define STORE_ARMOR_MAX 3
-#define LEVEL_MAX 10
-
-struct _tagItem
-{
-    char strName[NAME_SIZE];
-    char strTypeName[NAME_SIZE];
-    ITEM_TYPE eType;
-    int iMin;
-    int iMax;
-    int iPrice;
-    int iSell;
-    char strDesc[ITEM_DESC_LENGTH];
-};
-
-struct _tagInventory
-{
-    _tagItem tItem[INVENTORY_MAX];
-    int iItemCount;
-    int iGold;
-};
-
-
-struct _tagPlayer
-{
-    char strName[NAME_SIZE];
-    char strJobName[NAME_SIZE];
-    JOB eJob;
-    int iAttackMin;
-    int iAttackMax;
-    int iArmorMin;
-    int iArmorMax;
-    int iHP;
-    int iHPMax;
-    int iMP;
-    int iMPMax;
-    int iExp;
-    int iLevel;
-    _tagItem tEquip[EQ_MAX];
-    bool bEquip[EQ_MAX];
-    _tagInventory tInventory;
-};
-
-struct _tagMonster
-{
-    char strName[NAME_SIZE];
-    int iAttackMin;
-    int iAttackMax;
-    int iArmorMin;
-    int iArmorMax;
-    int iHP;
-    int iHPMax;
-    int iMP;
-    int iMPMax;
-    int iLevel;
-    int iExp;
-    int iGoldMin;
-    int iGoldMax;
-
-};
 
 struct _tagLevelUpStatus
 {
@@ -184,6 +103,14 @@ enum MAP_TYPE
     MT_BACK
 };
 
+void RunBattle(_tagPlayer* pPlayer, _tagMonster* pMonsterArr, int iMenu)
+{
+	
+	
+	
+}
+
+
 int OutputMapMenu()
 {
 	system("cls");
@@ -206,34 +133,306 @@ int OutputMapMenu()
 
 
 // Map에 관련된 동작을 처리한다. 
-void RunMap()
+void RunMap(_tagPlayer* pPlayer, _tagMonster* pMonsterArr)
 {
+	
+	 
 	bool bLoop = true;
 	while(bLoop){
 		
-		switch(OutputMapMenu())
-		{
-			case MT_EASY:
-				break;
-			case MT_NORMAL:
-				break;
-			case MT_HARD:
-				break;
-			case MT_BACK:
-				bLoop = false;
-				break; 
-			
-		}
+		int iMenu = OutputMapMenu();
+		
+//		switch(OutputMapMenu())
+//		{
+//			case MT_EASY:
+//				RunMapEasy();         
+//				break;
+//			case MT_NORMAL:
+//				cout << "************************** 보통 **************************" << endl;
+//                         
+//				break;
+//			case MT_HARD:
+//				cout << "************************** 어려움 **************************" << endl;
+//                         
+//				break;
+//			case MT_BACK:
+//				bLoop = false;
+//				break; 
+//			
+//		}
+		if(iMenu == MT_BACK) return;
+		
+		// 전투를 시작한다.
+		 
 		
 	}
 	
 }
 
+enum JOB
+{
+    JOB_NONE,
+    JOB_KNIGHT,
+    JOB_ARCHER,
+    JOB_WIZARD,
+    JOB_END
+};
+
+enum ITEM_TYPE
+{
+    IT_NONE,
+    IT_WEAPON,
+    IT_ARMOR,
+    IT_BACK
+};
+
+#define NAME_SIZE 32
+#define ITEM_DESC_LENGTH 512
+#define INVENTORY_MAX 20
+#define STORE_WEAPON_MAX 3
+#define STORE_ARMOR_MAX 3
+#define LEVEL_MAX 10
+
+struct _tagItem
+{
+    char strName[NAME_SIZE];
+    char strTypeName[NAME_SIZE];
+    ITEM_TYPE eType;
+    int iMin;
+    int iMax;
+    int iPrice;
+    int iSell;
+    char strDesc[ITEM_DESC_LENGTH];
+};
+
+struct _tagInventory
+{
+    _tagItem tItem[INVENTORY_MAX];
+    int iItemCount;
+    int iGold;
+};
+
+
+struct _tagPlayer
+{
+    char strName[NAME_SIZE];
+    char strJobName[NAME_SIZE];
+    JOB eJob;
+    int iAttackMin;
+    int iAttackMax;
+    int iArmorMin;
+    int iArmorMax;
+    int iHP;
+    int iHPMax;
+    int iMP;
+    int iMPMax;
+    int iExp;
+    int iLevel;
+    _tagItem tEquip[EQ_MAX];
+    bool bEquip[EQ_MAX];
+    _tagInventory tInventory;
+};
+
+struct _tagMonster
+{
+    char strName[NAME_SIZE];
+    int iAttackMin;
+    int iAttackMax;
+    int iArmorMin;
+    int iArmorMax;
+    int iHP;
+    int iHPMax;
+    int iMP;
+    int iMPMax;
+    int iLevel;
+    int iExp;
+    int iGoldMin;
+    int iGoldMax;
+
+};
+
+
+
+void RunMapEasy()
+{
+	cout << "************************** 쉬움 **************************" << endl;
+    InfoAttackAndArmor();
+	InfoPlayerAndMonster();            
+	
+	
+}
+
+
+void InfoAttackAndArmor()
+{
+	int iAttackMin = tPlayer.iAttackMin;
+    int iAttackMax = tPlayer.iAttackMax;
+
+    // 무기를 장착하고 있을 경우 무기의 Min, Max를 더해준다.
+    if (tPlayer.bEquip[EQ_WEAPON])
+    {
+        iAttackMin += tPlayer.tEquip[EQ_WEAPON].iMin;
+        iAttackMax += tPlayer.tEquip[EQ_WEAPON].iMax;
+    }
+
+    int iArmorMin = tPlayer.iArmorMin;
+    int iArmorMax = tPlayer.iArmorMax;
+
+    // 방어구를 장착하고 있을 경우 방어의 Min, Max를 더해준다.
+    if (tPlayer.bEquip[EQ_ARMOR])
+    {
+    	iArmorMin += tPlayer.tEquip[EQ_ARMOR].iMin;
+        iArmorMax += tPlayer.tEquip[EQ_ARMOR].iMax;
+    }
+	
+	
+}
+
+void InfoPlayerAndMonster()
+{
+	cout << "************************** Player **************************" << endl;
+    cout << "이름 : " << tPlayer.strName << "\t직업 : " << tPlayer.strJobName << endl;
+    cout << "레벨 : " << tPlayer.iLevel << "\t경험치 : " << tPlayer.iExp << " / " << iLevelUpExp[tPlayer.iLevel - 1] << endl;
+    cout << "공격력 : " << iAttackMin << " - " << iAttackMax << "\t방어력 : " << iArmorMin << " - " << iArmorMax << endl;
+    cout << "체력 : " << tPlayer.iHP << " / " << tPlayer.iHPMax << "\t마나 : " << tPlayer.iMP << " / " << tPlayer.iMPMax << endl;
+    cout << "보유골드 : " << tPlayer.tInventory.iGold << " Gold" << endl;
+
+
+    // 몬스터 정보 출력
+    cout << "************************** Monster **************************" << endl;
+    cout << "이름 : " << tMonster.strName << "\t레벨 : " << tMonster.iLevel << endl;
+    cout << "공격력 : " << tMonster.iAttackMin << " - " << tMonster.iAttackMax << "\t방어력 : " << tMonster.iArmorMin << " - " << tMonster.iArmorMax << endl;
+    cout << "체력 : " << tMonster.iHP << " / " << tMonster.iHPMax << "\t마나 : " << tMonster.iMP << " / " << tMonster.iMPMax << endl;
+    cout << "획득 경험치 : " << tMonster.iExp << "\t획득골드 : " << tMonster.iGoldMin << " - " << tMonster.iGoldMax << endl;
+
+}
+
+
+int SelectJob()
+{
+	int iJob = JOB_NONE;
+	while(iJob == JOB_NONE)
+	{
+		system("cls");
+	    cout << "1. 기사" << endl;
+	    cout << "2. 궁수" << endl;
+	    cout << "3. 마법사" << endl;
+	    cout << "직업을 선택하세요 : ";
+	    iJob = InputInt();
+	        
+	    if(iJob == INT_MAX || iJob <= JOB_NONE || iJob >= JOB_END){
+			iJob = JOB_NONE;	
+		}
+	}
+    
+    return iJob;
+}
+	
+
+
+
+// 포인터 타입으로 받아야 변경가능 
+void SetPlayer(_tagPlayer* pPlayer)
+{
+	// 플레이어 이름을 입력 받는다.
+    cout << "이름 : ";
+    cin.getline(tPlayer->strName, NAME_SIZE - 1);
+	
+	pPlayer->eJob = (JOB)SelectJob();
+	pPlayer->iLevel = 1;
+    pPlayer->iExp = 0;
+    pPlayer->eJob = (JOB)iJob;
+    pPlayer->tInventory.iGold = 10000;
+	
+	switch (pPlayer->eJob)
+    {
+    case JOB_KNIGHT:
+        strcpy_s(pPlayer->strJobName, "기사");
+        pPlayer->iAttackMin = 5;
+        pPlayer->iAttackMax = 10;
+        pPlayer->iArmorMin = 15;
+        pPlayer->iArmorMax = 20;
+        pPlayer->iHPMax = 500;
+        pPlayer->iHP = 500;
+        pPlayer->iMP = 100;
+        pPlayer->iMPMax = 100;
+        break;
+    case JOB_ARCHER:
+        strcpy_s(pPlayer->strJobName, "궁수");
+        pPlayer->iAttackMin = 10;
+        pPlayer->iAttackMax = 15;
+        pPlayer->iArmorMin = 10;
+        pPlayer->iArmorMax = 15;
+        pPlayer->iHPMax = 400;
+        pPlayer->iHP = 400;
+        pPlayer->iMP = 200;
+        pPlayer->iMPMax = 200;
+        break;
+    case JOB_WIZARD:
+        strcpy_s(pPlayer->strJobName, "마법사");
+        pPlayer->iAttackMin = 15;
+        pPlayer->iAttackMax = 20;
+        pPlayer->iArmorMin = 5;
+        pPlayer->iArmorMax = 10;
+        pPlayer->iHPMax = 300;
+        pPlayer->iHP = 300;
+        pPlayer->iMP = 300;
+        pPlayer->iMPMax = 300;
+        break;
+    }
+	
+}
+
+_tagMonster CreateMonster(char* pName, int iAttackMin, int iAttackMax,
+int iArmorMin, int iArmorMax, int iHP, int iHPMax, int iMP, int iMPMax,
+int iLevel, int iExp, int iGoldMin, int iGoldMax)
+{
+	
+	_tagMonster tMonster = {};
+
+    strcpy_s(tMonster.strName, pName);
+    tMonster.iAttackMin = iAttackMin;
+    tMonster.iAttackMax = iAttackMax;
+    tMonster.iArmorMin = iArmorMin;
+    tMonster.iArmorMax = iArmorMax;
+    tMonster.iHP = iHP;
+    tMonster.iHPMax = iHPMax;
+    tMonster.iMP = iMP;
+    tMonster.iMPMax = iMPMax;
+    tMonster.iLevel = iLevel;
+    tMonster.iExp = iExp;
+    tMonster.iGoldMin = iGoldMin;
+    tMonster.iGoldMax = iGoldMax;
+	
+	return tMonster;
+}
+
+void SetMonster(_tagMonster* pMonsterArr)
+{
+	pMonsterArr[0] = CreateMonster("고불린", 20, 30, 2, 5, 100, 100, 10, 10, 1, 1000, 500, 1500);
+	pMonsterArr[1] = CreateMonster("트롤", 80, 130, 60, 90, 2000, 2000, 100, 100, 5, 7000, 6000, 8000);
+	pMonsterArr[2] = CreateMonster("드래곤", 250, 500, 200, 400, 30000, 30000, 20000, 20000, 10, 30000, 20000, 50000);
+	
+}
 
 int main() 
 {
 
     srand((unsigned int)time(0));
+
+	// 게임을 시작할때 플레이어 정보를 설정하게 한다.
+    _tagPlayer tPlayer = {};
+	
+	// 플레이어의 정보를 정의한다. 
+	SetPlayer(&tPlayer);
+
+
+	// 몬스터를 생성한다
+    _tagMonster tMonsterArr[MT_BACK - 1] = {};
+    
+    // 배열명은 포인터주소이다. 
+	SetMonster(tMonsterArr);
+	
 
     // 레벨업에 필요한 경험치 목록을 만든다.
     const int iLevelUpExp[LEVEL_MAX] = { 4000, 10000, 20000, 35000, 50000, 70000, 100000, 150000, 200000, 400000 };
@@ -262,125 +461,11 @@ int main()
 
 
 
-    // 게임을 시작할때 플레이어 정보를 설정하게 한다.
-    _tagPlayer tPlayer = {};
-
-    // 플레이어 이름을 입력 받는다.
-    cout << "이름 : ";
-    cin.getline(tPlayer.strName, NAME_SIZE - 1);
-
-    int iJob = JOB_NONE;
-    while (iJob == JOB_NONE)
-    {
-        system("cls");
-        cout << "1. 기사" << endl;
-        cout << "2. 궁수" << endl;
-        cout << "3. 마법사" << endl;
-        cout << "직업을 선택하세요 : ";
-        cin >> iJob;
-
-        if (cin.fail()) {
-            cin.clear();
-            cin.ignore(1024, '\n');
-            continue;
-        }
-        else if (iJob <= JOB_NONE || iJob >= JOB_END)
-            iJob = JOB_NONE;
-
-    }
-
-
-    tPlayer.iLevel = 1;
-    tPlayer.iExp = 0;
-    tPlayer.eJob = (JOB)iJob;
-    tPlayer.tInventory.iGold = 10000;
-
-
-    switch (tPlayer.eJob)
-    {
-    case JOB_KNIGHT:
-        strcpy_s(tPlayer.strJobName, "기사");
-        tPlayer.iAttackMin = 5;
-        tPlayer.iAttackMax = 10;
-        tPlayer.iArmorMin = 15;
-        tPlayer.iArmorMax = 20;
-        tPlayer.iHPMax = 500;
-        tPlayer.iHP = 500;
-        tPlayer.iMP = 100;
-        tPlayer.iMPMax = 100;
-        break;
-    case JOB_ARCHER:
-        strcpy_s(tPlayer.strJobName, "궁수");
-        tPlayer.iAttackMin = 10;
-        tPlayer.iAttackMax = 15;
-        tPlayer.iArmorMin = 10;
-        tPlayer.iArmorMax = 15;
-        tPlayer.iHPMax = 400;
-        tPlayer.iHP = 400;
-        tPlayer.iMP = 200;
-        tPlayer.iMPMax = 200;
-        break;
-    case JOB_WIZARD:
-        strcpy_s(tPlayer.strJobName, "마법사");
-        tPlayer.iAttackMin = 15;
-        tPlayer.iAttackMax = 20;
-        tPlayer.iArmorMin = 5;
-        tPlayer.iArmorMax = 10;
-        tPlayer.iHPMax = 300;
-        tPlayer.iHP = 300;
-        tPlayer.iMP = 300;
-        tPlayer.iMPMax = 300;
-        break;
-    }
-
-
     // 몬스터를 생성한다
     _tagMonster tMonsterArr[MT_BACK - 1] = {};
-
-    // 고블린 생성
-    strcpy_s(tMonsterArr[0].strName, "고블린");
-    tMonsterArr[0].iAttackMin = 20;
-    tMonsterArr[0].iAttackMax = 30;
-    tMonsterArr[0].iArmorMin = 2;
-    tMonsterArr[0].iArmorMax = 5;
-    tMonsterArr[0].iHP = 100;
-    tMonsterArr[0].iHPMax = 100;
-    tMonsterArr[0].iMP = 10;
-    tMonsterArr[0].iMPMax = 10;
-    tMonsterArr[0].iLevel = 1;
-    tMonsterArr[0].iExp = 1000;
-    tMonsterArr[0].iGoldMin = 500;
-    tMonsterArr[0].iGoldMax = 1500;
-
-    // 트롤 생성
-    strcpy_s(tMonsterArr[1].strName, "트롤");
-    tMonsterArr[1].iAttackMin = 80;
-    tMonsterArr[1].iAttackMax = 130;
-    tMonsterArr[1].iArmorMin = 60;
-    tMonsterArr[1].iArmorMax = 90;
-    tMonsterArr[1].iHP = 2000;
-    tMonsterArr[1].iHPMax = 2000;
-    tMonsterArr[1].iMP = 100;
-    tMonsterArr[1].iMPMax = 100;
-    tMonsterArr[1].iLevel = 5;
-    tMonsterArr[1].iExp = 7000;
-    tMonsterArr[1].iGoldMin = 6000;
-    tMonsterArr[1].iGoldMax = 8000;
-
-    // 드래곤 생성
-    strcpy_s(tMonsterArr[2].strName, "드래곤");
-    tMonsterArr[2].iAttackMin = 250;
-    tMonsterArr[2].iAttackMax = 500;
-    tMonsterArr[2].iArmorMin = 200;
-    tMonsterArr[2].iArmorMax = 400;
-    tMonsterArr[2].iHP = 30000;
-    tMonsterArr[2].iHPMax = 30000;
-    tMonsterArr[2].iMP = 20000;
-    tMonsterArr[2].iMPMax = 20000;
-    tMonsterArr[2].iLevel = 10;
-    tMonsterArr[2].iExp = 30000;
-    tMonsterArr[2].iGoldMin = 20000;
-    tMonsterArr[2].iGoldMax = 50000;
+	
+	CreateMonster(tMonsterArr);
+	
 
     // 상점에서 판매할 아이템 목록을 생성한다.
     _tagItem tStoreWeapon[STORE_WEAPON_MAX] = {};
@@ -440,7 +525,8 @@ int main()
 
         case MM_MAP:
         	
-        	RunMap(); // Map 관련 루프를 처리한다. 
+        	RunMap(&tPlayer, tMonsterArr); // Map 관련 루프를 처리한다. 
+        	
         	
             while (true) {
                 
