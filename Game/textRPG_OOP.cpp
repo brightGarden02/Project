@@ -3,16 +3,6 @@
 
 using namespace std;
 
-
-enum BATTLE
-{
-    BATTLE_NONE,
-    BATTLE_ATTACK,
-    BATTLE_BACK
-};
-
-
-
 enum STORE_MENU
 {
     SM_NONE,
@@ -21,14 +11,13 @@ enum STORE_MENU
     SM_BACK
 };
 
+
 enum EQUI
 {
     EQ_WEAPON,
     EQ_ARMOR,
     EQ_MAX
 };
-
-
 
 
 struct _tagLevelUpStatus
@@ -43,21 +32,11 @@ struct _tagLevelUpStatus
     int iMPMax;
 };
 
-enum MAIN_MENU
-{
-    MM_NONE,
-    MM_MAP,
-    MM_STORE,
-    MM_INVENTORY,
-    MM_EXIT
-};
-
 
 // 숫자 입력을 받는다. 입력 오류까지 처리해주고 INT_MAX를 리턴하면
 // 입력 오류이다. 
 int InputInt()
 {
-	
 	int iInput;
 	cin >> iInput;
 	
@@ -70,6 +49,16 @@ int InputInt()
     
     return iInput;
 }
+
+
+enum MAIN_MENU
+{
+    MM_NONE,
+    MM_MAP,
+    MM_STORE,
+    MM_INVENTORY,
+    MM_EXIT
+};
 
 
 // 메인 메뉴를 화면에 보여주고 입력받은 메뉴를 반환한다.
@@ -103,8 +92,10 @@ enum MAP_TYPE
     MT_BACK
 };
 
+
 void OutputBattleTag(int iMenu)
 {
+	
 	switch (iMenu)
     {
         case MT_EASY:
@@ -120,6 +111,8 @@ void OutputBattleTag(int iMenu)
 	
 }
 
+
+// 수정이 필요해보임 
 void OutputPlayer(_tagPlater* pPlayer)
 {
 	cout << "************************** Player **************************" << endl;
@@ -150,9 +143,10 @@ void OutputPlayer(_tagPlater* pPlayer)
 
 }
 
+
 void OutputMonster(_tagMonster* pMonster)
 {
-	 // 몬스터 정보 출력
+	// 몬스터 정보 출력
     cout << "************************** Monster **************************" << endl;
     cout << "이름 : " << pMonster->strName << "\t레벨 : " << pMonster->iLevel << endl;
     cout << "공격력 : " << pMonster->iAttackMin << " - " << pMonster->iAttackMax << "\t방어력 : " << pMonster->iArmorMin << " - " << pMonster->iArmorMax << endl;
@@ -163,6 +157,15 @@ void OutputMonster(_tagMonster* pMonster)
 	
 	
 }
+
+
+enum BATTLE
+{
+    BATTLE_NONE,
+    BATTLE_ATTACK,
+    BATTLE_BACK
+};
+
 
 int OutputBattleMenu()
 {
@@ -186,6 +189,8 @@ void RunBattle(_tagPlayer* pPlayer, _tagMonster* pMonsterArr, int iMenu)
 	while(true)
 	{
 		system("cls");
+		
+		// 배틀 난이도 조정 
 		OutputBattleTag(iMenu);
 		
 		// 플레이어 출력
@@ -200,8 +205,6 @@ void RunBattle(_tagPlayer* pPlayer, _tagMonster* pMonsterArr, int iMenu)
 				break;
 			case BATTLE_BACK;
 				return;
-			
-			
 		}
 		
 	}
@@ -228,36 +231,14 @@ int OutputMapMenu()
 }
 
 
-
-
 // Map에 관련된 동작을 처리한다. 
 void RunMap(_tagPlayer* pPlayer, _tagMonster* pMonsterArr)
 {
-	
-	 
 	bool bLoop = true;
 	while(bLoop){
 		
 		int iMenu = OutputMapMenu();
 		
-//		switch(OutputMapMenu())
-//		{
-//			case MT_EASY:
-//				RunMapEasy();         
-//				break;
-//			case MT_NORMAL:
-//				cout << "************************** 보통 **************************" << endl;
-//                         
-//				break;
-//			case MT_HARD:
-//				cout << "************************** 어려움 **************************" << endl;
-//                         
-//				break;
-//			case MT_BACK:
-//				bLoop = false;
-//				break; 
-//			
-//		}
 		if(iMenu == MT_BACK) return;
 		
 		// 전투를 시작한다.
@@ -266,6 +247,7 @@ void RunMap(_tagPlayer* pPlayer, _tagMonster* pMonsterArr)
 	}
 	
 }
+
 
 enum JOB
 {
@@ -276,6 +258,7 @@ enum JOB
     JOB_END
 };
 
+
 enum ITEM_TYPE
 {
     IT_NONE,
@@ -284,12 +267,14 @@ enum ITEM_TYPE
     IT_BACK
 };
 
+
 #define NAME_SIZE 32
 #define ITEM_DESC_LENGTH 512
 #define INVENTORY_MAX 20
 #define STORE_WEAPON_MAX 3
 #define STORE_ARMOR_MAX 3
 #define LEVEL_MAX 10
+
 
 // 레벨업에 필요한 경험치 목록을 만든다.
 const int g_iLevelUpExp[LEVEL_MAX] = { 4000, 10000, 20000, 35000, 50000, 70000, 100000, 150000, 200000, 400000 };
@@ -306,6 +291,7 @@ struct _tagItem
     int iSell;
     char strDesc[ITEM_DESC_LENGTH];
 };
+
 
 struct _tagInventory
 {
@@ -335,6 +321,7 @@ struct _tagPlayer
     _tagInventory tInventory;
 };
 
+
 struct _tagMonster
 {
     char strName[NAME_SIZE];
@@ -350,7 +337,6 @@ struct _tagMonster
     int iExp;
     int iGoldMin;
     int iGoldMax;
-
 };
 
 
@@ -375,8 +361,6 @@ int SelectJob()
 }
 	
 
-
-
 // 포인터 타입으로 받아야 변경가능 
 void SetPlayer(_tagPlayer* pPlayer)
 {
@@ -384,6 +368,7 @@ void SetPlayer(_tagPlayer* pPlayer)
     cout << "이름 : ";
     cin.getline(tPlayer->strName, NAME_SIZE - 1);
 	
+//	eJob이 2개인데?? 
 	pPlayer->eJob = (JOB)SelectJob();
 	pPlayer->iLevel = 1;
     pPlayer->iExp = 0;
@@ -392,42 +377,43 @@ void SetPlayer(_tagPlayer* pPlayer)
 	
 	switch (pPlayer->eJob)
     {
-    case JOB_KNIGHT:
-        strcpy_s(pPlayer->strJobName, "기사");
-        pPlayer->iAttackMin = 5;
-        pPlayer->iAttackMax = 10;
-        pPlayer->iArmorMin = 15;
-        pPlayer->iArmorMax = 20;
-        pPlayer->iHPMax = 500;
-        pPlayer->iHP = 500;
-        pPlayer->iMP = 100;
-        pPlayer->iMPMax = 100;
-        break;
-    case JOB_ARCHER:
-        strcpy_s(pPlayer->strJobName, "궁수");
-        pPlayer->iAttackMin = 10;
-        pPlayer->iAttackMax = 15;
-        pPlayer->iArmorMin = 10;
-        pPlayer->iArmorMax = 15;
-        pPlayer->iHPMax = 400;
-        pPlayer->iHP = 400;
-        pPlayer->iMP = 200;
-        pPlayer->iMPMax = 200;
-        break;
-    case JOB_WIZARD:
-        strcpy_s(pPlayer->strJobName, "마법사");
-        pPlayer->iAttackMin = 15;
-        pPlayer->iAttackMax = 20;
-        pPlayer->iArmorMin = 5;
-        pPlayer->iArmorMax = 10;
-        pPlayer->iHPMax = 300;
-        pPlayer->iHP = 300;
-        pPlayer->iMP = 300;
-        pPlayer->iMPMax = 300;
-        break;
+	    case JOB_KNIGHT:
+	        strcpy_s(pPlayer->strJobName, "기사");
+	        pPlayer->iAttackMin = 5;
+	        pPlayer->iAttackMax = 10;
+	        pPlayer->iArmorMin = 15;
+	        pPlayer->iArmorMax = 20;
+	        pPlayer->iHPMax = 500;
+	        pPlayer->iHP = 500;
+	        pPlayer->iMP = 100;
+	        pPlayer->iMPMax = 100;
+	        break;
+	    case JOB_ARCHER:
+	        strcpy_s(pPlayer->strJobName, "궁수");
+	        pPlayer->iAttackMin = 10;
+	        pPlayer->iAttackMax = 15;
+	        pPlayer->iArmorMin = 10;
+	        pPlayer->iArmorMax = 15;
+	        pPlayer->iHPMax = 400;
+	        pPlayer->iHP = 400;
+	        pPlayer->iMP = 200;
+	        pPlayer->iMPMax = 200;
+	        break;
+	    case JOB_WIZARD:
+	        strcpy_s(pPlayer->strJobName, "마법사");
+	        pPlayer->iAttackMin = 15;
+	        pPlayer->iAttackMax = 20;
+	        pPlayer->iArmorMin = 5;
+	        pPlayer->iArmorMax = 10;
+	        pPlayer->iHPMax = 300;
+	        pPlayer->iHP = 300;
+	        pPlayer->iMP = 300;
+	        pPlayer->iMPMax = 300;
+	        break;
     }
 	
 }
+
 
 _tagMonster CreateMonster(char* pName, int iAttackMin, int iAttackMax, int iArmorMin, int iArmorMax, int iHP, int iHPMax, int iMP, int iMPMax,
 int iLevel, int iExp, int iGoldMin, int iGoldMax)
@@ -452,13 +438,14 @@ int iLevel, int iExp, int iGoldMin, int iGoldMax)
 	return tMonster;
 }
 
+
 void SetMonster(_tagMonster* pMonsterArr)
 {
 	pMonsterArr[0] = CreateMonster("고불린", 20, 30, 2, 5, 100, 100, 10, 10, 1, 1000, 500, 1500);
 	pMonsterArr[1] = CreateMonster("트롤", 80, 130, 60, 90, 2000, 2000, 100, 100, 5, 7000, 6000, 8000);
 	pMonsterArr[2] = CreateMonster("드래곤", 250, 500, 200, 400, 30000, 30000, 20000, 20000, 10, 30000, 20000, 50000);
-	
 }
+
 
 int main() 
 {
