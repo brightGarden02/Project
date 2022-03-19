@@ -113,7 +113,7 @@ void OutputBattleTag(int iMenu)
 
 
 // 수정이 필요해보임 
-void OutputPlayer(_tagPlater* pPlayer)
+void OutputPlayer(_tagPlayer* pPlayer)
 {
 	cout << "************************** Player **************************" << endl;
     cout << "이름 : " << pPlayer->strName << "\t직업 : " << pPlayer->strJobName << endl;
@@ -368,7 +368,7 @@ void SetPlayer(_tagPlayer* pPlayer)
     cout << "이름 : ";
     cin.getline(tPlayer->strName, NAME_SIZE - 1);
 	
-//	eJob이 2개인데?? 
+	// eJob이 2개인데?? 
 	pPlayer->eJob = (JOB)SelectJob();
 	pPlayer->iLevel = 1;
     pPlayer->iExp = 0;
@@ -465,10 +465,7 @@ int main()
     // 배열명은 포인터주소이다. 
 	SetMonster(tMonsterArr);
 	
-// 전역변수로 
-//    // 레벨업에 필요한 경험치 목록을 만든다.
-//    const int iLevelUpExp[LEVEL_MAX] = { 4000, 10000, 20000, 35000, 50000, 70000, 100000, 150000, 200000, 400000 };
-
+	
     // JOB_END는 4이다. 그런데 직업은 3개이므로 -1을 해주어서 배열을 각 직업별로
     // 생성하도록 한다.
     _tagLevelUpStatus tLvUpTable[JOB_END - 1] = {};
@@ -568,13 +565,10 @@ int main()
                 _tagMonster tMonster = tMonsterArr[iMenu - 1];
 
                 while (true) {
-
                     
                     int iAttackMin = tPlayer.iAttackMin;
                     int iAttackMax = tPlayer.iAttackMax;
 
-
-                    
 
                     switch (iMenu) {
 
