@@ -79,7 +79,22 @@ struct _tagPlayer
     _tagInventory tInventory;
 };
 
-
+struct _tagMonster
+{
+    char strName[NAME_SIZE];
+    int iAttackMin;
+    int iAttackMax;
+    int iArmorMin;
+    int iArmorMax;
+    int iHP;
+    int iHPMax;
+    int iMP;
+    int iMPMax;
+    int iLevel;
+    int iExp;
+    int iGoldMin;
+    int iGoldMax;
+};
 
 
 
@@ -270,7 +285,7 @@ void Battle(_tagPlayer* pPlayer, _tagMonster* pMonster)
 
         pPlayer->iExp += pMonster->iExp;
         int iGold = (rand() % (pMonster->iGoldMax - pMonster->iGoldMin + 1) + pMonster->iGoldMin);
-        pPlayer->tInventory->iGold += iGold;
+        pPlayer->tInventory.iGold += iGold;
 
         cout << pMonster->iExp << " 경험치를 획득하였습니다." << endl;
         cout << iGold << " Gold를 획득하였습니다." << endl;
@@ -293,16 +308,16 @@ void Battle(_tagPlayer* pPlayer, _tagMonster* pMonster)
             // 능력치를 상승시킨다.
             // 직업 인덱스를 구한다.
             int iJobIndex = pPlayer->eJob - 1;
-            int iAttackUp = rand() % (pPlayer->g_tLvUpTable[iJobIndex]->iAttackMax - pPlayer->g_tLvUpTable[iJobIndex]->iAttackMin + 1) + pPlayer->g_tLvUpTable[iJobIndex]->iAttackMin;
-            int iArmorUp = rand() % (pPlayer->g_tLvUpTable[iJobIndex]->iArmorMax - pPlayer->g_tLvUpTable[iJobIndex]->iArmorMin + 1) + pPlayer->g_tLvUpTable[iJobIndex]->iArmorMin;
+            int iAttackUp = rand() % (g_tLvUpTable[iJobIndex].iAttackMax - g_tLvUpTable[iJobIndex].iAttackMin + 1) + g_tLvUpTable[iJobIndex].iAttackMin;
+            int iArmorUp = rand() % (g_tLvUpTable[iJobIndex].iArmorMax - g_tLvUpTable[iJobIndex].iArmorMin + 1) + g_tLvUpTable[iJobIndex].iArmorMin;
 
-            int iHPUp = rand() % (pPlayer->g_tLvUpTable[iJobIndex]->iHPMax - pPlayer->g_tLvUpTable[iJobIndex]->iHPMin + 1) + pPlayer->g_tLvUpTable[iJobIndex]->iHPMin;
-            int iMPUp = rand() % (pPlayer->g_tLvUpTable[iJobIndex]->iMPMax - pPlayer->g_tLvUpTable[iJobIndex]->iMPMin + 1) + pPlayer->g_tLvUpTable[iJobIndex]->iMPMin;
+            int iHPUp = rand() % (g_tLvUpTable[iJobIndex].iHPMax - g_tLvUpTable[iJobIndex].iHPMin + 1) + g_tLvUpTable[iJobIndex].iHPMin;
+            int iMPUp = rand() % (g_tLvUpTable[iJobIndex].iMPMax - g_tLvUpTable[iJobIndex].iMPMin + 1) + g_tLvUpTable[iJobIndex].iMPMin;
 
-            pPlayer->iAttackMin += pPlayer->g_tLvUpTable[iJobIndex]->iAttackMin;
-            pPlayer->iAttackMax += pPlayer->g_tLvUpTable[iJobIndex].iAttackMax;
-            pPlayer->iArmorMin += pPlayer->g_tLvUpTable[iJobIndex].iArmorMin;
-            pPlayer->iArmorMax += pPlayer->g_tLvUpTable[iJobIndex].iArmorMax;
+            pPlayer->iAttackMin += g_tLvUpTable[iJobIndex].iAttackMin;
+            pPlayer->iAttackMax += g_tLvUpTable[iJobIndex].iAttackMax;
+            pPlayer->iArmorMin += g_tLvUpTable[iJobIndex].iArmorMin;
+            pPlayer->iArmorMax += g_tLvUpTable[iJobIndex].iArmorMax;
 
             pPlayer->iHPMax += iHPUp;
             pPlayer->iMPMax += iMPUp;
@@ -324,7 +339,7 @@ void Battle(_tagPlayer* pPlayer, _tagMonster* pMonster)
         iAttack = rand() % (pMonster->iAttackMax - pMonster->iAttackMin + 1) + pMonster->iAttackMin;
 
 
-        iArmor = rand() % (iArmorMax - iArmorMin + 1) + iArmorMin;
+        iArmor = rand() % (pMonster->iArmorMax - pMonster->iArmorMin + 1) + pMonster->iArmorMin;
         iDamage = iAttack - iArmor;
         iDamage = iDamage < 1 ? 1 : iDamage;
 
@@ -379,11 +394,11 @@ void RunBattle(_tagPlayer* pPlayer, _tagMonster* pMonsterArr, int iMenu)
 		 
 		switch(OutputBattleMenu())
 		{
-			case BATTLE_ATTACK;
+			case BATTLE_ATTACK:
 				Battle(pPlayer, &tMonster);
 				system("pause");
 				break;
-			case BATTLE_BACK;
+			case BATTLE_BACK:
 				return;
 		}
 		
@@ -431,37 +446,6 @@ void RunMap(_tagPlayer* pPlayer, _tagMonster* pMonsterArr)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-struct _tagMonster
-{
-    char strName[NAME_SIZE];
-    int iAttackMin;
-    int iAttackMax;
-    int iArmorMin;
-    int iArmorMax;
-    int iHP;
-    int iHPMax;
-    int iMP;
-    int iMPMax;
-    int iLevel;
-    int iExp;
-    int iGoldMin;
-    int iGoldMax;
-};
-
-
 int SelectJob()
 {
 	int iJob = JOB_NONE;
@@ -488,13 +472,13 @@ void SetPlayer(_tagPlayer* pPlayer)
 {
 	// 플레이어 이름을 입력 받는다.
     cout << "이름 : ";
-    cin.getline(tPlayer->strName, NAME_SIZE - 1);
+    cin.getline(pPlayer->strName, NAME_SIZE - 1);
 	
 	// eJob이 2개인데?? 
 	pPlayer->eJob = (JOB)SelectJob();
 	pPlayer->iLevel = 1;
     pPlayer->iExp = 0;
-    pPlayer->eJob = (JOB)iJob;
+//    pPlayer->eJob = (JOB)iJob;
     pPlayer->tInventory.iGold = 10000;
 	
 	switch (pPlayer->eJob)
