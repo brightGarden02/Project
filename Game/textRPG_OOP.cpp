@@ -1,6 +1,7 @@
 #include <iostream>
 #include <time.h>
 
+
 using namespace std;
 
 
@@ -562,14 +563,10 @@ int iHPMin, int iHPMax, int iMPMin, int iMPMax)
     tStatus.iAttackMax = iAttackMax;
     tStatus.iArmorMin = iArmorMin;
     tStatus.iArmorMax = iArmorMax;
-    tStatus.iHP = iHP;
+    tStatus.iHPMin = iHPMin;
     tStatus.iHPMax = iHPMax;
-    tStatus.iMP = iMP;
+    tStatus.iMP = iMPMin;
     tStatus.iMPMax = iMPMax;
-    tStatus.iLevel = iLevel;
-    tStatus.iExp = iExp;
-    tStatus.iGoldMin = iGoldMin;
-    tStatus.iGoldMax = iGoldMax;
 	
 	return tStatus;
 }
@@ -583,7 +580,7 @@ enum STORE_MENU
     SM_BACK
 };
 
-void OutputStoreMenu()
+int OutputStoreMenu()
 {
 	system("cls");
     cout << "************************** 상점 **************************" << endl;
@@ -591,7 +588,7 @@ void OutputStoreMenu()
     cout << "2. 방어구상점" << endl;
     cout << "3. 뒤로가기" << endl;
     cout << "상점을 선택하세요: ";
-    iMenu = InputInt();
+    int iMenu = InputInt();
  
     if(iMenu == INT_MAX || iMenu <= SM_NONE || iMenu > SM_BACK){
 		iMenu = SM_NONE;	
@@ -601,48 +598,16 @@ void OutputStoreMenu()
 }
 
 
-void RunShop(_tagPlayer* pPlayer, int iMenu)
-{
-	
-	_tagMonster tMonster = pMonsterArr[iMenu - 1];
-	
-	while(true)
-	{
-		system("cls");
-		
-		// 배틀 난이도 조정 
-		OutputBattleTag(iMenu);
-		
-		// 플레이어 출력
-		OutputPlayer(pPlayer);
-		
-		// 몬스터 출력
-		OutputMonster(&tMonster);
-		 
-		switch(OutputBattleMenu())
-		{
-			case BATTLE_ATTACK;
-				Battle(pPlayer, &tMonster);
-				system("pause");
-				break;
-			case BATTLE_BACK;
-				return;
-		}
-		
-	}
-	
-}
-
 
 int OutputStoreItemList(_tagInventory* pInventory, _tagItem* pStore, int iItemCount)
 {
 	
 	// 판매 목록을 보여준다.
     for (int i = 0; i < iItemCount; ++i) {
-        cout << i + 1 << ". 이름 : " << pStore.strName << "\t종류 : " << pStore.strTypeName << endl;
-        cout << "공격력 : " << pStore.iMin << " - " << pStore.iMax << endl;
-        cout << "판매가격 : " << pStore.iPrice << "\t구매가격 : " << pStore.iSell << endl;
-        cout << "설명 : " << pStore.strDesc << endl;
+        cout << i + 1 << ". 이름 : " << pStore->strName << "\t종류 : " << pStore->strTypeName << endl;
+        cout << "공격력 : " << pStore->iMin << " - " << pStore->iMax << endl;
+        cout << "판매가격 : " << pStore->iPrice << "\t구매가격 : " << pStore->iSell << endl;
+        cout << "설명 : " << pStore->strDesc << endl;
     }
 
         cout << iItemCount + 1 << ". 뒤로가기" << endl;
@@ -653,7 +618,8 @@ int OutputStoreItemList(_tagInventory* pInventory, _tagItem* pStore, int iItemCo
 
         if (iMenu < 1 || iMenu > iItemCount + 1)
         	return INT_MAX;
-	
+        	
+	return iMenu;
 }
 
 
