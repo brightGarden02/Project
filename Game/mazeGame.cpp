@@ -47,10 +47,11 @@ typedef _tagPoint* PPOINT;
 
 typedef struct _tagPlayer
 {
-	_tagPoint tPos;
-	bool bWallPush;
-	bool bTransparency;
-	int iBombPower;
+	_tagPoint	tPos;
+	bool		bWallPush;
+	bool		bPushOnOff;
+	bool		bTransparency;
+	int			iBombPower;
 }PLAYER, **PPLAYER;
 
 
@@ -137,9 +138,14 @@ void Output(char Maze[21][21], PPLAYER pPlayer)
 		
 	cout << "벽밀기: ";	
 	if(pPlayer->bWallPush)
-		cout << "ON" << endl;
-	else
-		cout <<"OFF" << endl;	
+	{
+		cout << "가능 / ";
+		
+		if(pPlayer->bPushOnOff)
+			cout << "ON" << endl;
+		else
+			cout <<"불가능" << endl;
+	}	
 		
 }
 
@@ -157,6 +163,7 @@ bool AddItem(char cItemType, PPLAYER pPlayer)
 	else if(cItemType == '6')
 	{
 		pPlayer->bWallPush = true;
+		pPlayer->bPushOnOff = true;
 		return true;
 		
 	}
@@ -185,6 +192,56 @@ void MoveUp(char Maze[21][21], PPLAYER pPlayer)
 			--pPlayer->tPos.y;
 		}
 		
+		// 벽 밀기가 가능하고 바로 윗칸이 벽일 경우 
+		else if (pPlayer->bWallPush && 
+				Maze[pPlayer->tPos.y - 1][pPlayer->tPos.x] == '0')
+		{
+			// 벽 밀기가 ON 상태일 경우 
+			if (pPlayer->bPushOnOff)
+			{
+				// 위의 윗칸이 0보다 크거나 같을 경우는 인덱스가 있다는 의미 
+				if(pPlayer->tPos.y - 2 >= 0)
+				{
+					// 위의 윗칸이 '길'이어야 밀기가 가능하다.
+					// 그러므로 '길'인지 체크한다. 
+					
+					// 벽일 경우 플레이어가 뒤로 밀려난다. 
+					if(Maze[pPlayer->tPos.y - 2][pPlayer->tPos.x] == '0')
+					{
+						if(pPlayer->bTransparency)
+							--pPlayer->tPos.y;
+							
+							 
+					}
+					
+					// 길일 경우 벽을 밀어낸다. 
+					else if(Maze[pPlayer->tPos.y - 2][pPlayer->tPos.x] == '1')
+					{
+						// 위의 윗칸을 벽으로 하고 
+						Maze[pPlayer->tPos.y - 2][pPlayer->tPos.x] != '0';
+						
+						// 윗칸은 벽이었는데 길로 만들어준다. 
+						Maze[pPlayer->tPos.y - 2][pPlayer->tPos.x] != '1';
+						
+						// 플레이어를 이동시킨다. 
+						--pPlayer->tPos.y;
+					}
+					
+					
+				}
+				
+				else if(pPlayer->bTransparency)
+					--pPlayer.tPos.y;
+					
+			}
+			
+			// 벽 밀기가 OFF 상태일 경우 
+			else if (pPlayer->bPushOnOff)
+				--pPlayer->tPos.y;
+			
+			
+		}
+		
 		else if(pPlayer->bTransparency)
 			--pPlayer->tPos.y;
 		
@@ -194,6 +251,7 @@ void MoveUp(char Maze[21][21], PPLAYER pPlayer)
 		
 	}
 }
+
 
 void MoveDown(char Maze[21][21], PPLAYER pPlayer)
 {
@@ -205,6 +263,55 @@ void MoveDown(char Maze[21][21], PPLAYER pPlayer)
 		{
 			++pPlayer->tPos.y;
 		}
+		// 벽 밀기가 가능하고 바로 윗칸이 벽일 경우 
+		else if (pPlayer->bWallPush && 
+				Maze[pPlayer->tPos.y + 1][pPlayer->tPos.x] == '0')
+		{
+			// 벽 밀기가 ON 상태일 경우 
+			if (pPlayer->bPushOnOff)
+			{
+				// 위의 윗칸이 0보다 크거나 같을 경우는 인덱스가 있다는 의미 
+				if(pPlayer->tPos.y + 2 < 20)
+				{
+					// 위의 윗칸이 '길'이어야 밀기가 가능하다.
+					// 그러므로 '길'인지 체크한다. 
+					
+					// 벽일 경우 플레이어가 뒤로 밀려난다. 
+					if(Maze[pPlayer->tPos.y + 2][pPlayer->tPos.x] == '0')
+					{
+						if(pPlayer->bTransparency)
+							++pPlayer->tPos.y;
+							
+							 
+					}
+					
+					// 길일 경우 벽을 밀어낸다. 
+					else if(Maze[pPlayer->tPos.y + 2][pPlayer->tPos.x] == '1')
+					{
+						// 위의 윗칸을 벽으로 하고 
+						Maze[pPlayer->tPos.y + 2][pPlayer->tPos.x] != '0';
+						
+						// 윗칸은 벽이었는데 길로 만들어준다. 
+						Maze[pPlayer->tPos.y + 2][pPlayer->tPos.x] != '1';
+						
+						// 플레이어를 이동시킨다. 
+						++pPlayer->tPos.y;
+					}
+					
+					
+				}
+				
+				else if(pPlayer->bTransparency)
+					++pPlayer.tPos.y;
+					
+			}
+			
+			// 벽 밀기가 OFF 상태일 경우 
+			else if (pPlayer->bPushOnOff)
+				++pPlayer->tPos.y;
+			
+			
+		}
 		
 		else if(pPlayer->bTransparency)
 			++pPlayer->tPos.y;
@@ -214,6 +321,7 @@ void MoveDown(char Maze[21][21], PPLAYER pPlayer)
 	}
 
 }
+
 
 void MoveLeft(char Maze[21][21], PPLAYER pPlayer)
 {
@@ -225,6 +333,56 @@ void MoveLeft(char Maze[21][21], PPLAYER pPlayer)
 		{
 			--pPlayer->tPos.x;
 		}
+		// 벽 밀기가 가능하고 바로 윗칸이 벽일 경우 
+		else if (pPlayer->bWallPush && 
+				Maze[pPlayer->tPos.y][pPlayer->tPos.x - 1] == '0')
+		{
+			// 벽 밀기가 ON 상태일 경우 
+			if (pPlayer->bPushOnOff)
+			{
+				// 위의 윗칸이 0보다 크거나 같을 경우는 인덱스가 있다는 의미 
+				if(pPlayer->tPos.x - 2 >= 0)
+				{
+					// 위의 윗칸이 '길'이어야 밀기가 가능하다.
+					// 그러므로 '길'인지 체크한다. 
+					
+					// 벽일 경우 플레이어가 뒤로 밀려난다. 
+					if(Maze[pPlayer->tPos.y][pPlayer->tPos.x - 2] == '0')
+					{
+						if(pPlayer->bTransparency)
+							--pPlayer->tPos.x;
+							
+							 
+					}
+					
+					// 길일 경우 벽을 밀어낸다. 
+					else if(Maze[pPlayer->tPos.y][pPlayer->tPos.x - 2] == '1')
+					{
+						// 위의 윗칸을 벽으로 하고 
+						Maze[pPlayer->tPos.y][pPlayer->tPos.x - 2] != '0';
+						
+						// 윗칸은 벽이었는데 길로 만들어준다. 
+						Maze[pPlayer->tPos.y][pPlayer->tPos.x - 2] != '1';
+						
+						// 플레이어를 이동시킨다. 
+						--pPlayer->tPos.x;
+					}
+					
+					
+				}
+				
+				else if(pPlayer->bTransparency)
+					--pPlayer.tPos.x;
+					
+			}
+			
+			// 벽 밀기가 OFF 상태일 경우 
+			else if (pPlayer->bPushOnOff)
+				--pPlayer->tPos.x;
+			
+			
+		}
+		
 		
 		else if(pPlayer->bTransparency)
 			--pPlayer->tPos.x;
@@ -247,7 +405,55 @@ void MoveRight(char Maze[21][21], PPLAYER pPlayer)
 		{
 			++pPlayer->tPos.x;
 		}
-		
+		// 벽 밀기가 가능하고 바로 윗칸이 벽일 경우 
+		else if (pPlayer->bWallPush && 
+				Maze[pPlayer->tPos.y][pPlayer->tPos.x + 1] == '0')
+		{
+			// 벽 밀기가 ON 상태일 경우 
+			if (pPlayer->bPushOnOff)
+			{
+				// 위의 윗칸이 0보다 크거나 같을 경우는 인덱스가 있다는 의미 
+				if(pPlayer->tPos.x + 2 < 20)
+				{
+					// 위의 윗칸이 '길'이어야 밀기가 가능하다.
+					// 그러므로 '길'인지 체크한다. 
+					
+					// 벽일 경우 플레이어가 뒤로 밀려난다. 
+					if(Maze[pPlayer->tPos.y][pPlayer->tPos.x + 2] == '0')
+					{
+						if(pPlayer->bTransparency)
+							++pPlayer->tPos.x;
+							
+							 
+					}
+					
+					// 길일 경우 벽을 밀어낸다. 
+					else if(Maze[pPlayer->tPos.y][pPlayer->tPos.x + 2] == '1')
+					{
+						// 위의 윗칸을 벽으로 하고 
+						Maze[pPlayer->tPos.y][pPlayer->tPos.x + 2] != '0';
+						
+						// 윗칸은 벽이었는데 길로 만들어준다. 
+						Maze[pPlayer->tPos.y][pPlayer->tPos.x + 2] != '1';
+						
+						// 플레이어를 이동시킨다. 
+						++pPlayer->tPos.x;
+					}
+					
+					
+				}
+				
+				else if(pPlayer->bTransparency)
+					++pPlayer->tPos.x;
+					
+			}
+			
+			// 벽 밀기가 OFF 상태일 경우 
+			else if (pPlayer->bPushOnOff)
+				++pPlayer->tPos.x;
+			
+			
+		}
 		else if(pPlayer->bTransparency)
 			++pPlayer->tPos.x;
 		
@@ -417,9 +623,9 @@ void Fire(char Maze[21][21], PPLAYER pPlayer, PPOINT pBombArr, int* pBombCount)
 				{
 					int iPercent = rand() %100; 
 					
-					if(iPercent < 70)
+					if(iPercent < 40)
 						Maze[pBombArr[i].y][pBombArr[i].x + j] = '5';
-					else if(iPercent < 80)
+					else if(iPercent < 70)
 						Maze[pBombArr[i].y][pBombArr[i].x + j] = '6';
 					else
 						Maze[pBombArr[i].y][pBombArr[i].x + j] = '7';
@@ -481,7 +687,7 @@ int main()
 		}
 		
 		
-		cout << "t: 폭탄설치, u: 폭탄 터트리기, i: 벽 밀기" << endl;
+		cout << "t: 폭탄설치, u: 폭탄 터트리기, i: 벽 밀기 ON/OFF" << endl;
 		cout << "w: 위, s: 아래, a: 왼쪽, d: 오른쪽, q: 종료:  ";
 		char cinput = _getch();
 
@@ -495,6 +701,12 @@ int main()
 		{
 			Fire(Maze, &pPlayer, pBombPos, &pBombCount)
 		}
+		else if(cinPut == 'i' || cinput == 'I')
+		{
+			if(tPlayer.bWallPush)
+				tPlayer.bPushOnOff = !tPlayer.bPushOnOff;
+		}
+		
 		
 		else
 			MovePlayer(strMaze, &tPlayer, cinput);
