@@ -34,18 +34,25 @@ using namespace std;
 */
 
 
+// x, y 좌표를 위한 구조체 
 struct _tagPoint
-{
+{ 
 	int x;
 	int y;
 };
 
 
 // typedef: 타입을 재정의하는 기능이다. 
+// _tagPoint 자료형의 별칭으로 POINT를 사용한다.
 typedef _tagPoint POINT;
+
+// _tagPoint* 자료형의 별칭으로 PPOINT를 사용한다. 
 typedef _tagPoint* PPOINT;
 
-typedef struct _tagPlayer
+
+// Player의 위치, 행동을 표현하기 위한 구조체이다. 
+// 구조체 별칭으로 PLAYER, **PPLAYER 사용한다. 
+typedef struct _tagPlayer 
 {
 	_tagPoint	tPos;
 	bool		bWallPush;
@@ -96,20 +103,26 @@ void Output(char Maze[21][21], PPLAYER pPlayer)
 	{
 		for (int j = 0; j < 20; ++j)
 		{
+			// 4: 폭 
 			if(Maze[i][j] == '4')
 				cout << "♨";			
 
 			else if (pPlayer->tPos.x == j && pPlayer->tPos.y == i)
 				cout << "☆";
 
+			// 0: 벽 
 			else if (Maze[i][j] == '0')
 				cout << "ㅁ";
 
+			// 1: 길 
 			else if (Maze[i][j] == '1')
 				cout << "  ";
+
+			// 2: 시작
 			else if (Maze[i][j] == '2')
 				cout << "★";
 
+			// 3: 도착 
 			else if (Maze[i][j] == '3')
 				cout << "◎";
 			
@@ -159,6 +172,7 @@ bool AddItem(char cItemType, PPLAYER pPlayer)
 		return true; 
 		
 	}
+	
 	//	6: 벽 밀기 아이템
 	else if(cItemType == '6')
 	{
@@ -167,6 +181,7 @@ bool AddItem(char cItemType, PPLAYER pPlayer)
 		return true;
 		
 	}
+	
 	//	7: 투명 아이템
 	else if(cItemType == '7')
 	{
@@ -652,21 +667,32 @@ void Fire(char Maze[21][21], PPLAYER pPlayer, PPOINT pBombArr, int* pBombCount)
 
 int main()
 {
+	// rand() 함수 호출을 위해서 srand() 함수를 부름
+	// srand() 함수: time을 seed로 가지고 있음 
 	srand((unsigned int)time(0));
 	
 	// 20 * 20 미로를 만든다.
 	char strMaze[21][21];
 
+	// 구조체 별칭 PLAYER로 변수 선언 및 초기화한다. 
 	PLAYER tPlayer = {};
+	
+	// _tagPoint 자료형의 별칭인 POINT로 변수 선언한다. 
 	POINT tStartPos;
+	
+	// _tagPoint 자료형의 별칭인 POINT로 변수 선언한다. 
 	POINT tEndPos;
-
-
+	
+	// tPlayer의 폭탄 범위를 1로 지정한다. 
 	tPlayer.iBombPower = 1;
 
+	// int 자료형 iBombCount인 폭탄 개수를 0으로 초기화한다. 
 	int iBombCount = 0;
+	
+	// int 자료형 iAddBomb인 폭탄 추가 개수를 0으로 초기화한다. 
 	int iAddBomb = 0;
 	
+	// _tagPoint 자료형의 별칭인 POINT로 폭탄 범위를 배열 5개로 변수 선언한다. 
 	POINT tBombPos[5];
 
 	// 미로를 설정한다. 
