@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로또 번호 추첨기</title>
+    <link rel="stylesheet" href="styleLotto.css">
+</head>
+<body>
+    <h1>로또 번호 추첨기</h1>
+    <script>
+        //배열 생성
+        var lotto = [];
+        
+        //lotto배열에 6개 넣기로 제한
+        while(lotto.length < 6){
+
+            //lotto배열에 넣을 숫자 생성
+            var num = parseInt(Math.random() * 45 + 1);
+            
+            //lotto배열에 숫자 중복방지
+            if(lotto.indexOf(num) == -1){
+                lotto.push(num);
+            }
+        }
+
+        //오름차순 정렬
+        lotto.sort((a, b) => a-b);
+
+        //CSS적용
+        document.write("<div class='ball ball1'>" + lotto[0] + "</div>");
+        document.write("<div class='ball ball2'>" + lotto[1] + "</div>");
+        document.write("<div class='ball ball3'>" + lotto[2] + "</div>");
+        document.write("<div class='ball ball4'>" + lotto[3] + "</div>");
+        document.write("<div class='ball ball5'>" + lotto[4] + "</div>");
+        document.write("<div class='ball ball6'>" + lotto[5] + "</div>");
+        
+    </script>
+</body>
+</html>
